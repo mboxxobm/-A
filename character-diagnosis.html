@@ -22,6 +22,8 @@
     .progress-track div{height:100%;border-radius:inherit;background:linear-gradient(90deg,#315de8,#71a5ff);transition:width .2s}
     .question{margin:0 0 15px;font-size:21px;line-height:1.4}
     .options{display:grid;gap:9px}
+    .occupation-select{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);font:inherit}
+    .occupation-select:focus-visible{outline:3px solid #8ba8f8;outline-offset:2px}
     .option{display:flex;gap:11px;align-items:flex-start;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:#fff;cursor:pointer;transition:.15s}
     .option:hover{border-color:#8ba8f8;background:#f8faff}
     .option:has(input:checked){border-color:var(--blue);background:#f1f5ff;box-shadow:0 0 0 1px var(--blue) inset}
@@ -51,13 +53,13 @@
   <header class="top"><a href="index.html">← CAREER CHECK</a><span>仕事キャラ診断 / DEMO</span></header>
   <main>
     <section class="hero">
-      <div class="eyebrow">5 QUESTIONS · ABOUT 1 MIN</div>
+      <div class="eyebrow">6 QUESTIONS · ABOUT 1 MIN</div>
       <h1>仕事の進め方から、<br>あなたの強みを見つけよう</h1>
       <p>正解・不正解はありません。最近の仕事で「自然にやっていること」を選んでください。</p>
     </section>
     <section class="panel" id="questionPanel" aria-live="polite">
-      <div class="progress-row"><span id="stepText">質問 1 / 5</span><span id="percent">20%</span></div>
-      <div class="progress-track"><div id="progress" style="width:20%"></div></div>
+      <div class="progress-row"><span id="stepText">質問 1 / 6</span><span id="percent">17%</span></div>
+      <div class="progress-track"><div id="progress" style="width:17%"></div></div>
       <h2 class="question" id="questionTitle"></h2>
       <div class="options" id="options"></div>
       <div class="actions">
@@ -71,6 +73,7 @@
         <div class="result-body">
           <div class="result-kicker">YOUR WORK STYLE</div>
           <h2 id="resultTitle"></h2>
+          <span class="strength-label" id="occupationLabel"></span>
           <p id="resultDescription"></p>
           <div id="strengths"></div>
         </div>
@@ -90,6 +93,25 @@
       supporter:{name:"サポーター",character:"僧侶型",image:"character-assets/04-priest-v01.png",description:"相手の困りごとをくみ取り、周りが力を出せる状態をつくります。支援によって誰の仕事がどう進みやすくなったかを言葉にしましょう。",strengths:["傾聴","支援","チームづくり"],prompt:"誰かの困りごとに気づき、相手やチームが動きやすくなるよう支えた経験は？"},
       mood:{name:"ムードメーカー",character:"吟遊詩人型",image:"character-assets/12-bard-v01.png",description:"伝え方や場づくりを通じて、人の関心を集め、共感や参加を広げます。誰に何を伝え、どんな反応や行動につながったかを話してみましょう。",strengths:["発信","共感","場づくり"],prompt:"伝え方を工夫して人を動かしたり、チームの雰囲気を変えたりした経験はありますか？"}
     };
+    const occupations={
+      knight:{name:"社会課題・サービス企画",character:"騎士型",image:"character-assets/01-knight-v01.png",prompt:"課題の背景を捉え、企画の目的や実現したい価値をどう定めたか振り返ってみましょう。"},
+      dragoon:{name:"起業・新規事業",character:"竜騎士型",image:"character-assets/17-dragoon-v01.png",prompt:"前例のない取り組みで、最初の一歩をどう決め、何を試したか整理してみましょう。"},
+      merchant:{name:"営業・商談・事業開発",character:"商人型",image:"character-assets/10-merchant-v01.png",prompt:"相手の課題をどう捉え、提案や交渉をどんな成果につなげたかを考えてみましょう。"},
+      sage:{name:"IT・データ分析・経営企画",character:"賢者型",image:"character-assets/06-sage-v01.png",prompt:"数字や技術を使って原因を特定し、判断や業務を改善した経験を探してみましょう。"},
+      martial:{name:"情報システム・ITサポート",character:"武闘家型",image:"character-assets/03-martial-artist-v01.png",prompt:"利用者の困りごとや技術的な問題を、どう切り分けて解決したか整理してみましょう。"},
+      priest:{name:"人事・相談支援・カウンセラー",character:"僧侶型",image:"character-assets/04-priest-v01.png",prompt:"相手の話を聞き、安心して力を出せる状態をどうつくったかを振り返ってみましょう。"},
+      bard:{name:"広報・PR・コンテンツ制作",character:"吟遊詩人型",image:"character-assets/12-bard-v01.png",prompt:"誰に何を届け、発信の後にどんな反応や行動が生まれたかを探してみましょう。"},
+      navigator:{name:"プロジェクト管理・運営・物流",character:"航海士型",image:"character-assets/13-navigator-v01.png",prompt:"目的地や期限をどう定め、人・時間・手順を調整して完了まで導いたか考えてみましょう。"},
+      blacksmith:{name:"品質管理・エンジニア・ものづくり",character:"鍛冶屋型",image:"character-assets/11-blacksmith-v01.png",prompt:"品質や使いやすさを高めるために、何を改善し、どんな違いが生まれたか振り返ってみましょう。"},
+      alchemist:{name:"研究・検証・製品開発",character:"錬金術師型",image:"character-assets/16-alchemist-v01.png",prompt:"仮説を立てて試し、失敗やデータから次の案をどう導いたか整理してみましょう。"},
+      paladin:{name:"教育・マネジメント・人材育成",character:"聖騎士型",image:"character-assets/18-paladin-v01.png",prompt:"相手の成長やチームの成果のために、どんな支援や育成を行ったか考えてみましょう。"},
+      jester:{name:"コピーライター・イベント企画",character:"道化師型",image:"character-assets/19-jester-v01.png",prompt:"言葉や企画の工夫で、場の空気や人の反応をどう変えたか振り返ってみましょう。"},
+      guardian:{name:"セキュリティ・リスク・保守管理",character:"番人型",image:"character-assets/20-guardian-v01.png",prompt:"問題を未然に防いだり、安定して運用できる仕組みを整えたりした経験を探してみましょう。"},
+      thief:{name:"Webマーケティング・市場調査",character:"盗賊型",image:"character-assets/07-thief-v01.png",prompt:"市場や利用者の情報から機会を見つけ、施策の効果につなげた経験を考えてみましょう。"},
+      archer:{name:"専門職・品質検証・デザイン",character:"弓使い型",image:"character-assets/09-archer-v01.png",prompt:"専門性を活かして一つの課題に集中し、精度や品質を高めた経験を振り返ってみましょう。"},
+      summoner:{name:"プロデュース・採用・組織連携",character:"召喚士型",image:"character-assets/15-summoner-v01.png",prompt:"人や組織をつなぎ、それぞれの力を組み合わせて実現したことを整理してみましょう。"},
+      unsure:{name:"まだ決めていない",character:null,image:null,prompt:null}
+    };
     const questions=[
       {title:"仕事で手応えを感じるのは、どんなとき？",options:[
         ["新しい企画や可能性を思いついたとき","idea"],["情報を整理して、進む道筋が見えたとき","strategist"],["人がつながり、協力して動き始めたとき","producer"],["目標に向けて動き、結果を出せたとき","executor"]]},
@@ -100,7 +122,9 @@
       {title:"周りから感謝されることが多いのは？",options:[
         ["改善案を出して、面倒な手順を整える","craftsman"],["人を紹介したり、協力を取りつけたりする","producer"],["要点をまとめ、判断材料をつくる","strategist"],["話しやすい雰囲気をつくり、情報を広める","mood"]]},
       {title:"次の仕事でも活かしたい、自分らしい強みは？",options:[
-        ["ゼロから案を考え、まず形にする力","idea"],["約束したことをやり切る力","executor"],["人を支えて、チームの力を引き出す力","supporter"],["細部まで磨き、安定した成果にする力","craftsman"]]}
+        ["ゼロから案を考え、まず形にする力","idea"],["約束したことをやり切る力","executor"],["人を支えて、チームの力を引き出す力","supporter"],["細部まで磨き、安定した成果にする力","craftsman"]]},
+      {title:"今、興味がある職種や仕事の領域は？",select:true,options:[
+        ["社会課題やサービスの企画","knight"],["起業や新規事業","dragoon"],["営業、商談、事業開発","merchant"],["IT、データ分析、経営企画","sage"],["情報システム、ITサポート","martial"],["人事、相談支援、カウンセラー","priest"],["広報、PR、コンテンツ制作","bard"],["プロジェクト管理、運営、物流","navigator"],["品質管理、エンジニア、ものづくり","blacksmith"],["研究、検証、製品開発","alchemist"],["教育、マネジメント、人材育成","paladin"],["コピーライター、イベント企画","jester"],["セキュリティ、リスク、保守管理","guardian"],["Webマーケティング、市場調査","thief"],["専門職、品質検証、デザイン","archer"],["プロデュース、採用、組織連携","summoner"],["まだ決めていない","unsure"]]}
     ];
     let current=0;
     const answers=Array(questions.length).fill(null);
@@ -111,18 +135,33 @@
       const question=questions[current];
       title.textContent=question.title;
       options.replaceChildren();
-      question.options.forEach(([label,roleId],index)=>{
-        const id=`q${current}-o${index}`;
-        const labelElement=document.createElement("label");
-        labelElement.className="option";
-        labelElement.htmlFor=id;
-        const input=document.createElement("input");
-        input.type="radio";input.name="answer";input.id=id;input.value=roleId;
-        input.checked=answers[current]===roleId;
-        input.addEventListener("change",()=>{answers[current]=roleId;nextButton.disabled=false});
-        const text=document.createElement("span");text.textContent=label;
-        labelElement.append(input,text);options.append(labelElement);
-      });
+      if(question.select){
+        const select=document.createElement("select");
+        select.className="occupation-select";
+        select.setAttribute("aria-label",question.title);
+        const placeholder=document.createElement("option");
+        placeholder.value="";placeholder.textContent="職種領域を選んでください";
+        select.append(placeholder);
+        question.options.forEach(([label,value])=>{
+          const option=document.createElement("option");option.value=value;option.textContent=label;select.append(option);
+        });
+        select.value=answers[current]||"";
+        select.addEventListener("change",()=>{answers[current]=select.value||null;nextButton.disabled=answers[current]===null});
+        options.append(select);
+      }else{
+        question.options.forEach(([label,roleId],index)=>{
+          const id=`q${current}-o${index}`;
+          const labelElement=document.createElement("label");
+          labelElement.className="option";
+          labelElement.htmlFor=id;
+          const input=document.createElement("input");
+          input.type="radio";input.name="answer";input.id=id;input.value=roleId;
+          input.checked=answers[current]===roleId;
+          input.addEventListener("change",()=>{answers[current]=roleId;nextButton.disabled=false});
+          const text=document.createElement("span");text.textContent=label;
+          labelElement.append(input,text);options.append(labelElement);
+        });
+      }
       const percent=Math.round((current+1)/questions.length*100);
       document.getElementById("stepText").textContent=`質問 ${current+1} / ${questions.length}`;
       document.getElementById("percent").textContent=`${percent}%`;
@@ -133,19 +172,22 @@
     }
     function showResult(){
       const scores=Object.fromEntries(Object.keys(roles).map(id=>[id,0]));
-      answers.forEach(id=>{scores[id]++});
+      answers.slice(0,questions.length-1).forEach(id=>{scores[id]++});
       const ranked=Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);
       const roleId=ranked[0];
       const role=roles[roleId];
+      const occupation=occupations[answers[questions.length-1]];
+      const character=occupation.character?occupation:{character:role.character,image:role.image};
       const image=document.getElementById("characterImage");
-      image.src=role.image;image.alt=role.character+"のキャラクターイラスト";
-      document.getElementById("resultTitle").textContent=`${role.character}の${role.name}`;
+      image.src=character.image;image.alt=character.character+"のキャラクターイラスト";
+      document.getElementById("resultTitle").textContent=`${character.character}の${role.name}`;
+      document.getElementById("occupationLabel").textContent=occupation.character?`職種領域から選定：${occupation.name}`:"職種未定のため、診断ロールに近いキャラ例を表示";
       document.getElementById("resultDescription").textContent=role.description;
       const strengths=document.getElementById("strengths");strengths.replaceChildren();
       ranked.slice(0,3).forEach(id=>{
         const badge=document.createElement("span");badge.className="strength-label";badge.textContent=roles[id].name;strengths.append(badge);
       });
-      document.getElementById("interviewPrompt").textContent=role.prompt;
+      document.getElementById("interviewPrompt").textContent=(occupation.prompt?occupation.prompt+" ":"")+role.prompt;
       document.getElementById("questionPanel").style.display="none";
       document.getElementById("resultPanel").classList.add("show");
       window.scrollTo({top:0,behavior:"smooth"});
