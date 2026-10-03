@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="5問で仕事の進め方を振り返り、職能ロールとキャラクターのデモ結果を表示します。">
+  <title>仕事キャラ診断 DEMO｜5問で見つける職能ロール</title>
+  <style>
+    :root{--ink:#182331;--muted:#647386;--blue:#2457e6;--blue2:#153fb4;--paper:#f5f8fc;--line:#e3e9f1;--white:#fff;--mint:#eaf8f3}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65}
+    .top{display:flex;justify-content:space-between;gap:12px;padding:15px 22px;background:#fff;border-bottom:1px solid var(--line);font-size:13px;font-weight:750}
+    .top a{color:var(--blue);text-decoration:none}
+    main{width:min(100% - 32px,760px);margin:28px auto 56px}
+    .hero{padding:28px;border-radius:22px;background:linear-gradient(130deg,#132e67,#2457e6 75%,#4a84fb);color:white;box-shadow:0 14px 35px #183b8026}
+    .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#c8dcff}
+    h1{margin:8px 0;font-size:clamp(27px,5vw,38px);line-height:1.25}
+    .hero p{margin:0;color:#e4edff;font-size:14px}
+    .panel{margin-top:18px;padding:24px;border:1px solid var(--line);border-radius:19px;background:var(--white);box-shadow:0 8px 26px #18233108}
+    .progress-row{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;font-weight:700}
+    .progress-track{height:8px;margin:9px 0 22px;overflow:hidden;border-radius:99px;background:#edf1f7}
+    .progress-track div{height:100%;border-radius:inherit;background:linear-gradient(90deg,#315de8,#71a5ff);transition:width .2s}
+    .question{margin:0 0 15px;font-size:21px;line-height:1.4}
+    .options{display:grid;gap:9px}
+    .option{display:flex;gap:11px;align-items:flex-start;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:#fff;cursor:pointer;transition:.15s}
+    .option:hover{border-color:#8ba8f8;background:#f8faff}
+    .option:has(input:checked){border-color:var(--blue);background:#f1f5ff;box-shadow:0 0 0 1px var(--blue) inset}
+    .option input{width:17px;height:17px;margin:3px 0 0;accent-color:var(--blue);flex:none}
+    .option span{font-size:14px}
+    .actions{display:flex;justify-content:space-between;gap:12px;margin-top:20px}
+    button{font:inherit;border:0;border-radius:11px;padding:11px 18px;cursor:pointer;font-weight:750}
+    button:disabled{opacity:.4;cursor:not-allowed}
+    .secondary{background:#edf1f7;color:var(--ink)}
+    .primary{min-width:135px;background:var(--blue);color:#fff}
+    .result{display:none}
+    .result.show{display:block}
+    .result-card{display:grid;grid-template-columns:190px 1fr;gap:20px;align-items:center;padding:18px;border-radius:17px;background:var(--mint)}
+    .character-image{width:100%;aspect-ratio:1;object-fit:contain;border-radius:12px;background:#fff}
+    .result-kicker{color:#147b5b;font-size:12px;font-weight:800;letter-spacing:.05em}
+    .result h2{margin:4px 0 8px;font-size:clamp(22px,4vw,29px);line-height:1.3}
+    .result p{margin:8px 0;color:var(--muted)}
+    .strength-label{display:inline-block;margin:4px 5px 0 0;padding:4px 9px;border-radius:99px;background:#fff;color:#147b5b;font-size:12px;font-weight:700}
+    .interview-prompt{margin-top:18px;padding:15px;border-radius:13px;background:#f1f5ff}
+    .interview-prompt strong{display:block;margin-bottom:3px}
+    .note{margin:13px 0 0;color:var(--muted);font-size:11px;line-height:1.7}
+    .result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    @media(max-width:560px){main{width:min(100% - 20px,760px);margin:16px auto 36px}.hero{padding:23px 20px;border-radius:18px}.panel{padding:18px 15px}.question{font-size:19px}.top{padding:13px 12px;font-size:11px}.result-card{grid-template-columns:1fr;gap:12px}.character-image{width:min(100%,230px);margin:auto}.result-body{text-align:center}}
+  </style>
+</head>
+<body>
+  <header class="top"><a href="index.html">← CAREER CHECK</a><span>仕事キャラ診断 / DEMO</span></header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">5 QUESTIONS · ABOUT 1 MIN</div>
+      <h1>仕事の進め方から、<br>あなたの強みを見つけよう</h1>
+      <p>正解・不正解はありません。最近の仕事で「自然にやっていること」を選んでください。</p>
+    </section>
+    <section class="panel" id="questionPanel" aria-live="polite">
+      <div class="progress-row"><span id="stepText">質問 1 / 5</span><span id="percent">20%</span></div>
+      <div class="progress-track"><div id="progress" style="width:20%"></div></div>
+      <h2 class="question" id="questionTitle"></h2>
+      <div class="options" id="options"></div>
+      <div class="actions">
+        <button class="secondary" id="backButton" type="button">戻る</button>
+        <button class="primary" id="nextButton" type="button" disabled>次へ</button>
+      </div>
+    </section>
+    <section class="panel result" id="resultPanel" aria-live="polite">
+      <div class="result-card">
+        <img class="character-image" id="characterImage" alt="">
+        <div class="result-body">
+          <div class="result-kicker">YOUR WORK STYLE</div>
+          <h2 id="resultTitle"></h2>
+          <p id="resultDescription"></p>
+          <div id="strengths"></div>
+        </div>
+      </div>
+      <div class="interview-prompt"><strong>転職活動で話してみること</strong><span id="interviewPrompt"></span></div>
+      <p class="note">これは仕事経験を振り返るためのデモです。採用の合否、職業適性、年収を判定するものではありません。キャラクターは結果イメージの例で、正式版では20キャラ×7職能ロールの組み合わせに広げられます。</p>
+      <div class="result-actions"><button class="primary" id="restartButton" type="button">もう一度診断する</button><a class="secondary" href="index.html" style="display:inline-block;padding:11px 18px;border-radius:11px;color:inherit;text-decoration:none;font-weight:750">サイトトップへ</a></div>
+    </section>
+  </main>
+  <script>
+    const roles={
+      idea:{name:"アイデアメーカー",character:"魔法使い型",image:"character-assets/05-wizard-v01.png",description:"まだ形のない可能性を見つけ、企画や新しい選択肢を生み出します。発想を試作品や計画につなげると強みが伝わります。",strengths:["発想","企画","0→1"],prompt:"最近、まだ答えのない課題に対して、どんな案を出し、どう形にしましたか？"},
+      strategist:{name:"参謀役",character:"賢者型",image:"character-assets/06-sage-v01.png",description:"情報や数字を整理し、課題の構造と次の一手を見つけます。判断の根拠と、その分析が周囲の行動をどう変えたかを伝えましょう。",strengths:["分析","構造化","戦略"],prompt:"複雑な問題を分解し、根拠をもとに方針を決めた経験はありますか？"},
+      producer:{name:"仕掛け人",character:"召喚士型",image:"character-assets/15-summoner-v01.png",description:"人や知識、機会をつなぎ、協力して進める場をつくります。誰を巻き込み、どう前進させたかがアピールになります。",strengths:["巻き込み","連携","企画推進"],prompt:"立場の異なる人たちをつなぎ、プロジェクトを前に進めた経験を教えてください。"},
+      executor:{name:"実行部隊",character:"戦士型",image:"character-assets/02-warrior-v01.png",description:"優先順位を決めて動き、目標までやり切ります。行動量だけでなく、期限や数字にどんな変化を起こしたかを添えると伝わります。",strengths:["行動力","完遂","成果"],prompt:"目標に向けて素早く動き、具体的な成果につなげた経験はありますか？"},
+      craftsman:{name:"職人",character:"鍛冶屋型",image:"character-assets/11-blacksmith-v01.png",description:"細部を磨き、品質や手順をよりよくします。改善前後の違いや、再現できる仕組みにした工夫が強みになります。",strengths:["品質","改善","仕組み化"],prompt:"仕事の品質や手順を見直し、ミスや手戻りを減らした経験を教えてください。"},
+      supporter:{name:"サポーター",character:"僧侶型",image:"character-assets/04-priest-v01.png",description:"相手の困りごとをくみ取り、周りが力を出せる状態をつくります。支援によって誰の仕事がどう進みやすくなったかを言葉にしましょう。",strengths:["傾聴","支援","チームづくり"],prompt:"誰かの困りごとに気づき、相手やチームが動きやすくなるよう支えた経験は？"},
+      mood:{name:"ムードメーカー",character:"吟遊詩人型",image:"character-assets/12-bard-v01.png",description:"伝え方や場づくりを通じて、人の関心を集め、共感や参加を広げます。誰に何を伝え、どんな反応や行動につながったかを話してみましょう。",strengths:["発信","共感","場づくり"],prompt:"伝え方を工夫して人を動かしたり、チームの雰囲気を変えたりした経験はありますか？"}
+    };
+    const questions=[
+      {title:"仕事で手応えを感じるのは、どんなとき？",options:[
+        ["新しい企画や可能性を思いついたとき","idea"],["情報を整理して、進む道筋が見えたとき","strategist"],["人がつながり、協力して動き始めたとき","producer"],["目標に向けて動き、結果を出せたとき","executor"]]},
+      {title:"プロジェクトで、つい引き受けている役割は？",options:[
+        ["資料や成果物を見直し、質を上げる","craftsman"],["困っている人を見つけ、相談に乗る","supporter"],["情報をわかりやすく伝えて、人を集める","mood"],["関係者の間に入り、段取りをつける","producer"]]},
+      {title:"計画どおりに進まないとき、最初にすることは？",options:[
+        ["事実を集め、どこで詰まっているか考える","strategist"],["まず小さく試し、反応を見る","idea"],["担当を決め直し、できるところから動く","executor"],["関係する人の状況を聞き、助け方を探す","supporter"]]},
+      {title:"周りから感謝されることが多いのは？",options:[
+        ["改善案を出して、面倒な手順を整える","craftsman"],["人を紹介したり、協力を取りつけたりする","producer"],["要点をまとめ、判断材料をつくる","strategist"],["話しやすい雰囲気をつくり、情報を広める","mood"]]},
+      {title:"次の仕事でも活かしたい、自分らしい強みは？",options:[
+        ["ゼロから案を考え、まず形にする力","idea"],["約束したことをやり切る力","executor"],["人を支えて、チームの力を引き出す力","supporter"],["細部まで磨き、安定した成果にする力","craftsman"]]}
+    ];
+    let current=0;
+    const answers=Array(questions.length).fill(null);
+    const title=document.getElementById("questionTitle");
+    const options=document.getElementById("options");
+    const nextButton=document.getElementById("nextButton");
+    function renderQuestion(){
+      const question=questions[current];
+      title.textContent=question.title;
+      options.replaceChildren();
+      question.options.forEach(([label,roleId],index)=>{
+        const id=`q${current}-o${index}`;
+        const labelElement=document.createElement("label");
+        labelElement.className="option";
+        labelElement.htmlFor=id;
+        const input=document.createElement("input");
+        input.type="radio";input.name="answer";input.id=id;input.value=roleId;
+        input.checked=answers[current]===roleId;
+        input.addEventListener("change",()=>{answers[current]=roleId;nextButton.disabled=false});
+        const text=document.createElement("span");text.textContent=label;
+        labelElement.append(input,text);options.append(labelElement);
+      });
+      const percent=Math.round((current+1)/questions.length*100);
+      document.getElementById("stepText").textContent=`質問 ${current+1} / ${questions.length}`;
+      document.getElementById("percent").textContent=`${percent}%`;
+      document.getElementById("progress").style.width=`${percent}%`;
+      document.getElementById("backButton").disabled=current===0;
+      nextButton.disabled=answers[current]===null;
+      nextButton.textContent=current===questions.length-1?"結果を見る":"次へ";
+    }
+    function showResult(){
+      const scores=Object.fromEntries(Object.keys(roles).map(id=>[id,0]));
+      answers.forEach(id=>{scores[id]++});
+      const ranked=Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);
+      const roleId=ranked[0];
+      const role=roles[roleId];
+      const image=document.getElementById("characterImage");
+      image.src=role.image;image.alt=role.character+"のキャラクターイラスト";
+      document.getElementById("resultTitle").textContent=`${role.character}の${role.name}`;
+      document.getElementById("resultDescription").textContent=role.description;
+      const strengths=document.getElementById("strengths");strengths.replaceChildren();
+      ranked.slice(0,3).forEach(id=>{
+        const badge=document.createElement("span");badge.className="strength-label";badge.textContent=roles[id].name;strengths.append(badge);
+      });
+      document.getElementById("interviewPrompt").textContent=role.prompt;
+      document.getElementById("questionPanel").style.display="none";
+      document.getElementById("resultPanel").classList.add("show");
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+    document.getElementById("backButton").addEventListener("click",()=>{if(current>0){current--;renderQuestion()}});
+    nextButton.addEventListener("click",()=>{if(answers[current]===null)return;if(current<questions.length-1){current++;renderQuestion()}else showResult()});
+    document.getElementById("restartButton").addEventListener("click",()=>{
+      current=0;answers.fill(null);
+      document.getElementById("resultPanel").classList.remove("show");
+      document.getElementById("questionPanel").style.display="block";
+      renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+    });
+    renderQuestion();
+  </script>
+</body>
+</html>

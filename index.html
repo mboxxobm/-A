@@ -9,8 +9,10 @@
     :root{--ink:#182331;--muted:#647386;--blue:#2457e6;--blue2:#153fb4;--mint:#dff7ef;--paper:#f5f8fc;--line:#e3e9f1;--white:#fff}
     *{box-sizing:border-box}
     body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65}
-    .top{padding:15px 22px;background:#fff;border-bottom:1px solid var(--line);font-size:14px;font-weight:750;letter-spacing:.03em}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 22px;background:#fff;border-bottom:1px solid var(--line);font-size:14px;font-weight:750;letter-spacing:.03em}
     .top span{color:var(--blue)}
+    .character-link{flex:none;color:var(--blue);font-size:12px;letter-spacing:0;text-decoration:none}
+    .character-link:hover{text-decoration:underline}
     main{width:min(100% - 32px,760px);margin:34px auto 64px}
     .hero{padding:32px 30px 26px;border-radius:24px;background:linear-gradient(130deg,#132e67,#2457e6 75%,#4a84fb);color:white;box-shadow:0 14px 35px #183b8026}
     .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#c8dcff}
@@ -68,17 +70,72 @@
     .disclaimer{border-top:1px solid var(--line);padding-top:15px;margin-top:20px;color:var(--muted);font-size:12px}
     .restart{margin-top:18px}
     .foot{color:var(--muted);font-size:11px;text-align:center;margin-top:18px}
+    .loss-calculator{margin:20px 0;padding:24px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:0 8px 26px #18233108}
+    .loss-calculator h2{margin:0;font-size:clamp(21px,4vw,28px);line-height:1.35}
+    .loss-lead{margin:8px 0 22px;color:var(--muted);font-size:14px}
+    .loss-controls{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .loss-control{padding:16px;border:1px solid var(--line);border-radius:15px;background:#fafcff}
+    .loss-control label{display:block;font-weight:750}
+    .range-value{display:block;margin:4px 0 11px;color:var(--blue);font-size:24px;font-weight:850;font-variant-numeric:tabular-nums}
+    .loss-control input[type="range"]{display:block;width:100%;height:24px;margin:0;accent-color:var(--blue);cursor:pointer}
+    .loss-control input[type="range"]:focus-visible{outline:3px solid #8ba8f8;outline-offset:3px;border-radius:6px}
+    .range-limits{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+    .loss-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+    .loss-result{min-width:0;padding:17px;border-radius:15px;background:#f1f5ff}
+    .loss-result.cost{background:#eaf8f3}
+    .loss-result-label{display:block;color:var(--muted);font-size:12px;font-weight:700}
+    .loss-result strong{display:block;margin-top:5px;color:var(--blue);font-size:clamp(20px,3vw,28px);line-height:1.3;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+    .loss-result.cost strong{color:#147b5b}
+    .loss-result small{display:block;margin-top:3px;color:var(--muted);font-size:11px}
+    .loss-assumptions{margin:15px 0 0;color:var(--muted);font-size:11px;line-height:1.7}
     @media(max-width:520px){main{width:min(100% - 20px,760px);margin:16px auto 40px}.hero{padding:25px 21px 22px;border-radius:19px}.panel{padding:18px 16px;border-radius:17px}.qtitle{font-size:19px}.option{padding:12px}.actions button{padding:11px 13px}.primary{min-width:120px}}
+    @media(max-width:640px){.loss-calculator{padding:19px 16px}.loss-controls{grid-template-columns:1fr;gap:12px}.loss-results{grid-template-columns:1fr;gap:9px}.loss-result{padding:13px 15px}.loss-result strong{font-size:24px}}
   </style>
 </head>
 <body>
-  <header class="top"><span>CAREER CHECK</span>　転職の可能性を考える10問</header>
+  <header class="top"><div><span>CAREER CHECK</span>　転職の可能性を考える10問</div><a class="character-link" href="character-diagnosis.html">仕事キャラ診断を試す ↗</a></header>
   <main>
     <section class="hero">
       <div class="eyebrow">10 QUESTIONS · ABOUT 2 MIN</div>
       <h1>年収1,200万円の求人、<br>あなたにも合う？</h1>
       <p>広告で見かけた「想定年収1,200万円」。その金額だけで判断せず、経験や希望に合う求人を探す準備ができているか、10問で整理してみましょう。</p>
       <div class="pills"><span class="pill">無料セルフチェック</span><span class="pill">登録不要</span><span class="pill">回答は送信されません</span></div>
+    </section>
+    <section class="loss-calculator" aria-labelledby="lossTitle">
+      <h2 id="lossTitle">資料作成にかかる時間と人件費を試算</h2>
+      <p class="loss-lead">スライダーを動かすと、会社全体の年間負担が変わります。</p>
+      <div class="loss-controls">
+        <div class="loss-control">
+          <label for="employeeRange">社員数</label>
+          <output class="range-value" id="employeeValue" for="employeeRange">1,000人</output>
+          <input id="employeeRange" type="range" min="1" max="5000" step="1" value="1000" aria-label="社員数">
+          <div class="range-limits" aria-hidden="true"><span>1人</span><span>5,000人</span></div>
+        </div>
+        <div class="loss-control">
+          <label for="documentHoursRange">資料作成に使う時間（1人あたり・1日）</label>
+          <output class="range-value" id="documentHoursValue" for="documentHoursRange">1時間</output>
+          <input id="documentHoursRange" type="range" min="0" max="8" step="0.25" value="1" aria-label="1人あたり1日の資料作成時間">
+          <div class="range-limits" aria-hidden="true"><span>0時間</span><span>8時間</span></div>
+        </div>
+      </div>
+      <div class="loss-results" aria-live="polite" aria-atomic="true">
+        <div class="loss-result">
+          <span class="loss-result-label">年間の資料作成時間</span>
+          <strong id="annualHours">245,000時間</strong>
+          <small id="fteEquivalent">フルタイム約125人分</small>
+        </div>
+        <div class="loss-result cost">
+          <span class="loss-result-label">額面給与ベース</span>
+          <strong id="salaryCost">7.5億円</strong>
+          <small>年収600万円として算出</small>
+        </div>
+        <div class="loss-result cost">
+          <span class="loss-result-label">会社負担分を含む目安</span>
+          <strong id="totalCost">9億〜9.75億円</strong>
+          <small>額面給与の1.2〜1.3倍で算出</small>
+        </div>
+      </div>
+      <p class="loss-assumptions">試算条件：年間245日・1日8時間勤務・平均年収600万円。会社負担分は法定福利費や福利厚生などを含む概算です。時間と金額は資料作成に充てた労働時間の換算値で、実際に削減できる現金額を示すものではありません。</p>
     </section>
     <section id="quiz" class="panel" aria-live="polite">
       <div class="progressrow"><span id="stepText">質問 1 / 10</span><span id="percent">10%</span></div>
@@ -197,6 +254,35 @@
     }
     document.getElementById("restart").addEventListener("click",()=>{current=0;answers.fill(null);document.getElementById("result").classList.remove("show");document.getElementById("quiz").style.display="block";render();window.scrollTo({top:0,behavior:"smooth"})});
     render();
+
+    const employeeRange=document.getElementById("employeeRange");
+    const documentHoursRange=document.getElementById("documentHoursRange");
+    const numberFormat=new Intl.NumberFormat("ja-JP");
+    const yenFormat=new Intl.NumberFormat("ja-JP",{maximumFractionDigits:2});
+    function formatYen(amount){
+      if(amount===0)return "0円";
+      if(amount>=100000000)return yenFormat.format(amount/100000000)+"億円";
+      if(amount>=10000)return numberFormat.format(Math.round(amount/10000))+"万円";
+      return numberFormat.format(Math.round(amount))+"円";
+    }
+    function updateLossEstimate(){
+      const employees=Number(employeeRange.value);
+      const dailyHours=Number(documentHoursRange.value);
+      const annualHours=employees*dailyHours*245;
+      const fullTimeEquivalent=annualHours/(245*8);
+      const salaryCost=employees*dailyHours/8*6000000;
+      document.getElementById("employeeValue").textContent=numberFormat.format(employees)+"人";
+      document.getElementById("documentHoursValue").textContent=dailyHours+"時間";
+      document.getElementById("annualHours").textContent=numberFormat.format(Math.round(annualHours))+"時間";
+      document.getElementById("fteEquivalent").textContent="フルタイム約"+numberFormat.format(Math.round(fullTimeEquivalent))+"人分";
+      document.getElementById("salaryCost").textContent=formatYen(salaryCost);
+      document.getElementById("totalCost").textContent=formatYen(salaryCost*1.2)+"〜"+formatYen(salaryCost*1.3);
+      employeeRange.setAttribute("aria-valuetext",numberFormat.format(employees)+"人");
+      documentHoursRange.setAttribute("aria-valuetext",dailyHours+"時間");
+    }
+    employeeRange.addEventListener("input",updateLossEstimate);
+    documentHoursRange.addEventListener("input",updateLossEstimate);
+    updateLossEstimate();
   </script>
 </body>
 </html>
