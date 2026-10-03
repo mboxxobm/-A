@@ -47,6 +47,21 @@
     .scorebar{height:10px;flex:1;background:#edf1f7;border-radius:99px;overflow:hidden}
     .scorebar div{height:100%;background:linear-gradient(90deg,#315de8,#54c9a3)}
     .callout{padding:17px;border-radius:14px;background:#f0f5ff;margin:18px 0}
+    .salary-card{border:1px solid #dce6f8;border-radius:16px;padding:18px;margin:20px 0;background:linear-gradient(135deg,#f7faff,#eff5ff)}
+    .salary-card h3{margin:4px 0 0;font-size:18px}
+    .salary-number{font-size:38px;font-weight:850;color:var(--blue);line-height:1.25;margin:8px 0}
+    .salary-number small{font-size:15px;color:var(--muted);margin-left:4px}
+    .salary-detail,.salary-note,.salary-source{font-size:12px;color:var(--muted);margin:5px 0}
+    .salary-source a{color:var(--blue)}
+    .ad-slot{border:1px dashed #aab8cd;border-radius:16px;padding:18px;margin:20px 0;background:#fafcff}
+    .ad-tag{display:inline-block;background:#e9eef8;color:#46566d;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:750}
+    .ad-slot h3{margin:8px 0 5px}
+    .ad-slot p{font-size:13px;color:var(--muted);margin:5px 0}
+    .faq{border-top:1px solid var(--line);margin-top:22px;padding-top:8px}
+    .faq h3{margin:10px 0}
+    .faq details{border-bottom:1px solid var(--line);padding:12px 2px}
+    .faq summary{font-weight:700;cursor:pointer}
+    .faq p{font-size:13px;color:var(--muted);margin:8px 0 2px}
     .callout strong{display:block;margin-bottom:4px}
     .nextsteps{padding-left:1.2em}
     .nextsteps li{margin:7px 0}
@@ -81,9 +96,28 @@
       <h2 id="resultTitle"></h2>
       <p id="resultIntro"></p>
       <div class="scoreline"><div class="score"><span id="scoreNum"></span><small> / 100</small></div><div class="scorebar"><div id="scoreBar"></div></div></div>
+      <section class="salary-card" aria-labelledby="salaryHeading">
+        <div class="resultLabel">MARKET REFERENCE</div>
+        <h3 id="salaryHeading">選んだ分野の平均年収（参考）</h3>
+        <div class="salary-number"><span id="marketSalary"></span><small>万円</small></div>
+        <p class="salary-detail" id="marketDetail"></p>
+        <p class="salary-source">出典：<a href="https://doda.jp/guide/heikin/syokusyu/" target="_blank" rel="noopener">doda「平均年収ランキング2025」</a></p>
+        <p class="salary-note">これは調査対象者の平均で、あなた個人の転職後年収や内定額を予測するものではありません。</p>
+      </section>
       <div class="callout"><strong>次に確認したいこと</strong><span id="resultCallout"></span></div>
       <h3>転職活動でやってみること</h3>
       <ul class="nextsteps" id="steps"></ul>
+      <section class="ad-slot">
+        <span class="ad-tag">広告掲載枠・準備中</span>
+        <h3>転職サイトを比較する</h3>
+        <p>掲載するサービスと広告リンクが決まり次第、広告であることを明記して一覧を掲載します。</p>
+      </section>
+      <section class="faq">
+        <h3>よくある質問</h3>
+        <details><summary>診断結果に出る年収が、転職後にもらえる金額ですか？</summary><p>いいえ。表示するのは選んだ職種分類の平均年収です。個人の提示額は、経験・スキル・勤務地・企業や選考結果などで変わります。</p></details>
+        <details><summary>診断スコアは「市場価値」ですか？</summary><p>いいえ。この10問への回答から作る簡易的な転職準備度の目安です。採用可能性や年収を判定するものではありません。</p></details>
+        <details><summary>回答内容は保存されますか？</summary><p>回答はこのページ内でのみ使われ、サーバーには送信・保存されません。</p></details>
+      </section>
       <p class="disclaimer">この結果は回答をもとにした簡易的な準備度チェックです。年収や内定を予測・保証するものではありません。「想定年収」は求人や転職サービスごとに条件が異なります。実際の提示年収は、経験・スキル・勤務地・選考結果などによって変わります。回答内容はこのページ内でのみ使われ、送信・保存されません。</p>
       <button class="secondary restart" id="restart" type="button">もう一度診断する</button>
     </section>
@@ -92,7 +126,7 @@
   <script>
     const questions = [
       {t:"まずは現在地チェック。今の年収にいちばん近いのは？",o:[["400万円未満",1],["400万〜599万円",2],["600万〜799万円",3],["800万〜999万円",4],["1,000万円以上",5]]},
-      {t:"月曜の朝、どんな仕事なら「よし、やるか」と思える？",o:[["お客さんの課題を解決して、成果につなげる",3],["技術やデータで、難しい問題を解く",4],["新しい企画や事業を形にする",4],["チームや組織がうまく回る仕組みをつくる",3],["まだピンとくる仕事を探しているところ",2]]},
+      {t:"次の仕事をひとつ選ぶなら、どの「武器」で勝負したい？",o:[["提案力で、お客さんの課題を解決する（営業・事業開発）",3],["技術やデータで、難しい問題を解く（IT・エンジニア）",4],["企画や仕組みで、会社を動かす（企画・管理）",4],["企業の課題を分析して、変化を支える（コンサル）",4],["まだ絞れていない。まず選択肢を知りたい",2]]},
       {t:"これまでの仕事、どれくらい場数を踏んできた？",o:[["まだ1年未満。これから経験を積みたい",1],["1〜3年。任される仕事が増えてきた",2],["4〜7年。得意分野が見えてきた",3],["8年以上。経験を活かして次に進みたい",4]]},
       {t:"同僚から「これならあなたに任せたい」と言われるのは？",o:[["具体的に説明できる専門分野がある",4],["いくつか思い当たる。今、言葉にしているところ",3],["これから自分の得意技を見つけたい",1]]},
       {t:"最近の仕事で「これは自分の成果！」と思えるのは？",o:[["売上・改善率・達成率など、数字で話せる",4],["お客さんやチームに喜ばれた事例がある",3],["思い当たることはあるけれど、まだ整理中",1]]},
@@ -101,6 +135,13 @@
       {t:"次の仕事で「これが叶ったらうれしい！」と思うのは？",o:[["やりたい職種・役割・条件を具体的に説明できる",4],["方向性はある。細かい条件はこれから決めたい",3],["まずはどんな選択肢があるか見てみたい",2]]},
       {t:"求人票を見たとき、つい最初にチェックするのは？",o:[["勤務地や働き方。選択肢は広めに考えられる",3],["これだけは大切、という希望条件が決まっている",2],["何を優先するか、ちょうど整理しているところ",2]]},
       {t:"転職スイッチが入るとしたら、いつ頃？",o:[["いい仕事に出会えたら、すぐ動きたい",4],["3〜6か月くらいで動きたい",3],["半年以降。まずは相場を知っておきたい",2],["まだ未定。気になって調べ始めたところ",1]]}
+    ];
+    const salaryBenchmarks=[
+      {category:"営業系",average:476},
+      {category:"技術系（IT／通信）",average:469},
+      {category:"企画／管理系",average:580},
+      {category:"専門職（コンサルティングファーム等）",average:619},
+      {category:"全職種平均",average:429}
     ];
     let current=0; const answers=Array(questions.length).fill(null);
     const q=document.getElementById("question"), opts=document.getElementById("options"), back=document.getElementById("back"), next=document.getElementById("next");
@@ -143,6 +184,9 @@
       }
       document.getElementById("scoreNum").textContent=score;
       document.getElementById("scoreBar").style.width=score+"%";
+      const benchmark=salaryBenchmarks[answers["1i"]]||salaryBenchmarks[4];
+      document.getElementById("marketSalary").textContent=benchmark.average;
+      document.getElementById("marketDetail").textContent=benchmark.category+"の平均年収。dodaの正社員登録者データ（2024年9月〜2025年8月、20〜65歳、約60万人）を集計。";
       document.getElementById("resultTitle").textContent=title;
       document.getElementById("resultIntro").textContent=intro;
       document.getElementById("resultCallout").textContent=callout;
