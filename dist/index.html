@@ -1,0 +1,3409 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10182f" />
+    <meta
+      name="description"
+      content="20キャラ×7職能ロールで、自分らしい働き方の勝ち筋を見つけるキャリアタイプ診断。転職・就職サービスも状況別に比較できます。"
+    />
+    <title>キャリアタイプ診断｜20キャラ×7職能ロールで仕事の強みを発見</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2310182f'/%3E%3Cpath d='M18 44V20h7l7 11 7-11h7v24h-7V31l-7 10-7-10v13z' fill='%2364d7d3'/%3E%3Ccircle cx='49' cy='16' r='5' fill='%23ffb45b'/%3E%3C/svg%3E"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #10182f;
+        --ink-soft: #293451;
+        --muted: #68738a;
+        --line: #dce2ec;
+        --paper: #ffffff;
+        --canvas: #f2f5f9;
+        --teal: #1ba5a1;
+        --teal-soft: #ddf5f2;
+        --orange: #ef8b3c;
+        --orange-soft: #fff0df;
+        --blue: #4777d7;
+        --blue-soft: #e8efff;
+        --violet: #805ec6;
+        --violet-soft: #f0eaff;
+        --shadow: 0 18px 45px rgba(16, 24, 47, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+        font-size: 16px;
+        line-height: 1.75;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -4rem;
+        z-index: 20;
+        padding: 0.65rem 0.9rem;
+        border-radius: 0.55rem;
+        background: var(--orange);
+        color: var(--ink);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid rgba(220, 226, 236, 0.85);
+        background: rgba(242, 245, 249, 0.9);
+        backdrop-filter: blur(15px);
+      }
+
+      .header-inner,
+      .page-shell {
+        width: min(1160px, calc(100% - 2.5rem));
+        margin: 0 auto;
+      }
+
+      .header-inner {
+        display: flex;
+        min-height: 72px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        color: var(--ink);
+        font-size: 0.98rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 11px;
+        background: var(--ink);
+        color: var(--teal);
+        font-size: 1rem;
+        font-weight: 900;
+        box-shadow: 4px 4px 0 var(--orange);
+      }
+
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        color: var(--muted);
+        font-size: 0.88rem;
+        font-weight: 700;
+      }
+
+      .site-nav a {
+        text-decoration: none;
+      }
+
+      .site-nav a:hover,
+      .site-nav a:focus-visible {
+        color: var(--ink);
+      }
+
+      .header-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.48rem 0.75rem;
+        border: 1px solid #c7e9e5;
+        border-radius: 999px;
+        background: var(--teal-soft);
+        color: #197773;
+        font-size: 0.78rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--teal);
+      }
+
+      .hero-wrap {
+        padding: 2.25rem 0 1.25rem;
+      }
+
+      .hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+        gap: 2.5rem;
+        overflow: hidden;
+        min-height: 390px;
+        padding: clamp(2rem, 5vw, 4rem);
+        border-radius: 1.75rem;
+        background:
+          radial-gradient(circle at 87% 15%, rgba(100, 215, 211, 0.26), transparent 24%),
+          radial-gradient(circle at 72% 115%, rgba(239, 139, 60, 0.18), transparent 31%),
+          var(--ink);
+        color: #f7fbff;
+        box-shadow: var(--shadow);
+      }
+
+      .hero::after {
+        position: absolute;
+        right: -40px;
+        bottom: -80px;
+        width: 260px;
+        height: 260px;
+        border: 1px solid rgba(100, 215, 211, 0.28);
+        border-radius: 50%;
+        content: "";
+        box-shadow: 0 0 0 22px rgba(100, 215, 211, 0.035), 0 0 0 44px rgba(100, 215, 211, 0.025);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--teal);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 2rem;
+        height: 2px;
+        background: var(--orange);
+        content: "";
+      }
+
+      .hero h1 {
+        max-width: 690px;
+        margin: 1rem 0 1.05rem;
+        font-size: clamp(2.1rem, 5vw, 4.6rem);
+        letter-spacing: -0.055em;
+        line-height: 1.08;
+      }
+
+      .hero h1 em {
+        color: var(--teal);
+        font-style: normal;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+        margin: 0;
+        color: #c8d0df;
+        font-size: clamp(1rem, 1.4vw, 1.18rem);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin-top: 1.75rem;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.7rem;
+        font-size: 0.92rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: translateY(-2px);
+      }
+
+      .button-primary {
+        background: var(--orange);
+        color: var(--ink);
+        box-shadow: 0 8px 0 rgba(239, 139, 60, 0.24);
+      }
+
+      .button-ghost {
+        border-color: rgba(255, 255, 255, 0.24);
+        color: #f7fbff;
+      }
+
+      .button-ghost:hover,
+      .button-ghost:focus-visible {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .hero-aside {
+        position: relative;
+        z-index: 1;
+        align-self: end;
+        padding: 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.07);
+      }
+
+      .game-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid #c9d5e4;
+        border-radius: 1.4rem;
+        background:
+          radial-gradient(circle at 90% 10%, rgba(100, 215, 211, 0.2), transparent 28%),
+          linear-gradient(135deg, #eaf1fb 0%, #f8fbff 55%, #fff3e6 100%);
+        box-shadow: var(--shadow);
+      }
+
+      .game-main {
+        min-height: 410px;
+        padding: clamp(1.35rem, 4vw, 2.15rem);
+        border: 1px solid #e3e8f0;
+        border-radius: 1.05rem;
+        background: var(--paper);
+      }
+
+      .game-topline,
+      .game-progress-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .game-kicker,
+      .game-step {
+        color: var(--teal);
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+      }
+
+      .game-step {
+        color: var(--muted);
+      }
+
+      .game-view[hidden] {
+        display: none;
+      }
+
+      .game-start {
+        padding-top: 3rem;
+      }
+
+      .game-start h3,
+      .game-question h3,
+      .game-result h3 {
+        max-width: 650px;
+        margin: 0.9rem 0 0.7rem;
+        font-size: clamp(1.45rem, 3vw, 2.15rem);
+        letter-spacing: -0.04em;
+        line-height: 1.2;
+      }
+
+      .game-start p,
+      .game-question p,
+      .game-result p {
+        max-width: 640px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .game-points {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.55rem;
+        margin: 1.5rem 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .game-points li {
+        padding: 0.7rem;
+        border: 1px solid #e7ebf2;
+        border-radius: 0.65rem;
+        background: #fbfcfe;
+        color: var(--ink-soft);
+        font-size: 0.82rem;
+        font-weight: 800;
+        line-height: 1.45;
+      }
+
+      .game-points li::before {
+        display: block;
+        margin-bottom: 0.3rem;
+        color: var(--teal);
+        content: "✦";
+      }
+
+      .game-button {
+        display: inline-flex;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.7rem;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 900;
+        text-decoration: none;
+        transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+      }
+
+      .game-button:hover,
+      .game-button:focus-visible {
+        transform: translateY(-2px);
+      }
+
+      .game-button-primary {
+        background: var(--ink);
+        color: #fff;
+        box-shadow: 0 7px 0 rgba(16, 24, 47, 0.12);
+      }
+
+      .game-button-primary:hover,
+      .game-button-primary:focus-visible {
+        background: #202a49;
+      }
+
+      .game-button-secondary {
+        border-color: var(--line);
+        background: #fff;
+        color: var(--ink-soft);
+      }
+
+      .game-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+        transform: none;
+      }
+
+      .game-progress-line {
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .game-progress-line strong {
+        color: var(--ink);
+      }
+
+      .game-progress {
+        width: 100%;
+        height: 8px;
+        margin: 0.65rem 0 1.6rem;
+        overflow: hidden;
+        border: 0;
+        border-radius: 999px;
+        background: #e8edf4;
+      }
+
+      .game-progress::-webkit-progress-bar {
+        border-radius: 999px;
+        background: #e8edf4;
+      }
+
+      .game-progress::-webkit-progress-value {
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--teal), #64d7d3);
+      }
+
+      .game-progress::-moz-progress-bar {
+        border-radius: 999px;
+        background: var(--teal);
+      }
+
+      .answer-list {
+        display: grid;
+        gap: 0.65rem;
+        margin-top: 1.25rem;
+      }
+
+      .answer-option {
+        display: grid;
+        grid-template-columns: 34px 1fr auto;
+        align-items: center;
+        gap: 0.8rem;
+        width: 100%;
+        min-height: 58px;
+        padding: 0.7rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 0.75rem;
+        background: #fff;
+        color: var(--ink-soft);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.92rem;
+        font-weight: 800;
+        text-align: left;
+        transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+      }
+
+      .answer-option:hover,
+      .answer-option:focus-visible {
+        border-color: var(--teal);
+        transform: translateX(2px);
+      }
+
+      .answer-option.is-selected {
+        border-color: var(--teal);
+        background: var(--teal-soft);
+        color: #135e5b;
+      }
+
+      .choice-key {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border-radius: 50%;
+        background: #eef2f7;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .answer-option.is-selected .choice-key {
+        background: var(--teal);
+        color: #fff;
+      }
+
+      .choice-arrow {
+        color: #9ca8b9;
+        font-size: 1.15rem;
+      }
+
+      .game-actions,
+      .game-result-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.25rem;
+      }
+
+      .game-result {
+        padding-top: 2.7rem;
+      }
+
+      .result-badge {
+        display: inline-flex;
+        padding: 0.35rem 0.6rem;
+        border-radius: 999px;
+        background: var(--orange-soft);
+        color: #ac5b1e !important;
+        font-size: 0.73rem !important;
+        font-weight: 900;
+        letter-spacing: 0.09em;
+      }
+
+      .result-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-top: 1.35rem;
+      }
+
+      .result-metric {
+        padding: 0.85rem;
+        border: 1px solid #e7ebf2;
+        border-radius: 0.7rem;
+        background: #fbfcfe;
+      }
+
+      .result-metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-weight: 800;
+      }
+
+      .result-metric strong {
+        display: block;
+        margin-top: 0.22rem;
+        color: var(--ink);
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .result-recommendation {
+        margin-top: 1rem !important;
+        padding: 0.85rem 1rem;
+        border-left: 3px solid var(--teal);
+        background: #f0fbfa;
+        color: #356966 !important;
+        font-size: 0.88rem;
+        line-height: 1.65;
+      }
+
+      .game-disclaimer {
+        margin-top: 1rem !important;
+        color: #8a94a5 !important;
+        font-size: 0.76rem !important;
+        line-height: 1.6;
+      }
+
+      .game-side {
+        display: flex;
+        min-height: 410px;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(1.35rem, 4vw, 2rem);
+        border-radius: 1.05rem;
+        background:
+          radial-gradient(circle at 90% 12%, rgba(100, 215, 211, 0.23), transparent 32%),
+          var(--ink);
+        color: #f7fbff;
+      }
+
+      .game-side-label {
+        color: var(--teal);
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.13em;
+      }
+
+      .game-side h3 {
+        margin: 0.8rem 0 1.25rem;
+        font-size: clamp(1.35rem, 2.8vw, 2rem);
+        letter-spacing: -0.04em;
+        line-height: 1.25;
+      }
+
+      .game-side-list {
+        display: grid;
+        gap: 0.9rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .game-side-list li {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        gap: 0.7rem;
+        align-items: start;
+        color: #c8d0df;
+        font-size: 0.88rem;
+        line-height: 1.55;
+      }
+
+      .game-side-list b {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border: 1px solid rgba(100, 215, 211, 0.35);
+        border-radius: 50%;
+        color: var(--teal);
+        font-size: 0.76rem;
+      }
+
+      .type-diagnosis-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid #d8cfee;
+        border-radius: 1.4rem;
+        background:
+          radial-gradient(circle at 12% 0%, rgba(128, 94, 198, 0.16), transparent 27%),
+          radial-gradient(circle at 100% 100%, rgba(239, 139, 60, 0.16), transparent 30%),
+          #f7f5ff;
+        box-shadow: var(--shadow);
+      }
+
+      .type-diagnosis-main {
+        min-height: 470px;
+        padding: clamp(1.35rem, 4vw, 2.15rem);
+        border: 1px solid #e3e0f0;
+        border-radius: 1.05rem;
+        background: var(--paper);
+      }
+
+      .type-diagnosis-side {
+        display: flex;
+        min-height: 470px;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(1.35rem, 4vw, 2rem);
+        border-radius: 1.05rem;
+        background:
+          radial-gradient(circle at 92% 10%, rgba(255, 180, 91, 0.22), transparent 28%),
+          var(--ink);
+        color: #f7fbff;
+      }
+
+      .type-kicker,
+      .type-step {
+        color: var(--violet);
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+      }
+
+      .type-step {
+        color: var(--muted);
+      }
+
+      .type-view[hidden] {
+        display: none;
+      }
+
+      .type-start {
+        padding-top: 3rem;
+      }
+
+      .type-start h3,
+      .type-question h3,
+      .type-result h3 {
+        max-width: 680px;
+        margin: 0.9rem 0 0.7rem;
+        font-size: clamp(1.45rem, 3vw, 2.15rem);
+        letter-spacing: -0.04em;
+        line-height: 1.2;
+      }
+
+      .type-start p,
+      .type-question p,
+      .type-result p {
+        max-width: 680px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .type-points {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.55rem;
+        margin: 1.5rem 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .type-points li {
+        padding: 0.7rem;
+        border: 1px solid #e7e1f2;
+        border-radius: 0.65rem;
+        background: #fbfaff;
+        color: var(--ink-soft);
+        font-size: 0.82rem;
+        font-weight: 800;
+        line-height: 1.45;
+      }
+
+      .type-points li::before {
+        display: block;
+        margin-bottom: 0.3rem;
+        color: var(--violet);
+        content: "✦";
+      }
+
+      .type-button {
+        display: inline-flex;
+        min-height: 46px;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.7rem 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.7rem;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 900;
+        text-decoration: none;
+        transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+      }
+
+      .type-button:hover,
+      .type-button:focus-visible {
+        transform: translateY(-2px);
+      }
+
+      .type-button-primary {
+        background: var(--violet);
+        color: #fff;
+        box-shadow: 0 7px 0 rgba(128, 94, 198, 0.16);
+      }
+
+      .type-button-primary:hover,
+      .type-button-primary:focus-visible {
+        background: #6d4fb1;
+      }
+
+      .type-button-secondary {
+        border-color: var(--line);
+        background: #fff;
+        color: var(--ink-soft);
+      }
+
+      .type-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+        transform: none;
+      }
+
+      .type-progress-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .type-progress-line strong {
+        color: var(--ink);
+      }
+
+      .type-progress {
+        width: 100%;
+        height: 8px;
+        margin: 0.65rem 0 1.6rem;
+        overflow: hidden;
+        border: 0;
+        border-radius: 999px;
+        background: #ebe7f5;
+      }
+
+      .type-progress::-webkit-progress-bar {
+        border-radius: 999px;
+        background: #ebe7f5;
+      }
+
+      .type-progress::-webkit-progress-value {
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--violet), #b69ae9);
+      }
+
+      .type-progress::-moz-progress-bar {
+        border-radius: 999px;
+        background: var(--violet);
+      }
+
+      .type-choice-list {
+        display: grid;
+        gap: 0.65rem;
+        margin-top: 1.25rem;
+      }
+
+      .type-choice {
+        display: grid;
+        grid-template-columns: 34px 1fr auto;
+        align-items: center;
+        gap: 0.8rem;
+        width: 100%;
+        min-height: 58px;
+        padding: 0.7rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 0.75rem;
+        background: #fff;
+        color: var(--ink-soft);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.92rem;
+        font-weight: 800;
+        text-align: left;
+        transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+      }
+
+      .type-choice:hover,
+      .type-choice:focus-visible {
+        border-color: var(--violet);
+        transform: translateX(2px);
+      }
+
+      .type-choice.is-selected {
+        border-color: var(--violet);
+        background: var(--violet-soft);
+        color: #57408c;
+      }
+
+      .type-choice-key {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border-radius: 50%;
+        background: #eef2f7;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .type-choice.is-selected .type-choice-key {
+        background: var(--violet);
+        color: #fff;
+      }
+
+      .type-choice-axis {
+        color: #9ca8b9;
+        font-size: 0.75rem;
+        font-weight: 800;
+      }
+
+      .type-actions,
+      .type-result-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.25rem;
+      }
+
+      .type-result {
+        padding-top: 2.2rem;
+      }
+
+      .type-result-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1rem;
+        align-items: start;
+      }
+
+      .type-result-heading h3 {
+        margin-top: 0.65rem;
+      }
+
+      .type-result-intro {
+        margin-top: 0.3rem !important;
+        line-height: 1.75;
+      }
+
+      .type-result-visual {
+        display: grid;
+        min-width: 104px;
+        place-items: center;
+      }
+
+      .sd-avatar {
+        display: grid;
+        width: 104px;
+        height: 104px;
+        place-items: center;
+        border: 4px solid #fff;
+        border-radius: 38% 38% 46% 46%;
+        background: var(--accent-soft, var(--teal-soft));
+        box-shadow: 0 9px 0 var(--accent, var(--teal)), 0 13px 20px rgba(16, 24, 47, 0.14);
+        font-size: 3.65rem;
+        line-height: 1;
+      }
+
+      .sd-avatar-small {
+        width: 66px;
+        height: 66px;
+        border-width: 3px;
+        border-radius: 36% 36% 44% 44%;
+        box-shadow: 0 6px 0 var(--accent, var(--teal)), 0 9px 15px rgba(16, 24, 47, 0.11);
+        font-size: 2.35rem;
+      }
+
+      .type-result-label {
+        display: block;
+        margin-top: 0.9rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .type-result-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-top: 1.35rem;
+      }
+
+      .type-result-card {
+        padding: 0.9rem;
+        border: 1px solid #e7ebf2;
+        border-radius: 0.7rem;
+        background: #fbfcfe;
+      }
+
+      .type-result-card > span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-weight: 800;
+      }
+
+      .type-result-card > strong {
+        display: block;
+        margin-top: 0.22rem;
+        color: var(--ink);
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .type-result-card p {
+        margin-top: 0.35rem;
+        font-size: 0.82rem;
+        line-height: 1.6;
+      }
+
+      .type-result-story {
+        margin-top: 1rem !important;
+        padding: 0.85rem 1rem;
+        border-left: 3px solid var(--violet);
+        background: #f5f1ff;
+        color: #5c4a83 !important;
+        font-size: 0.88rem;
+        line-height: 1.7;
+      }
+
+      .type-job-picker {
+        margin-top: 1rem;
+        padding: 0.95rem 1rem;
+        border: 1px solid #e7ebf2;
+        border-radius: 0.75rem;
+        background: #fff;
+      }
+
+      .type-job-picker label {
+        display: block;
+        color: var(--ink-soft);
+        font-size: 0.8rem;
+        font-weight: 900;
+      }
+
+      .type-job-picker select {
+        width: 100%;
+        min-height: 44px;
+        margin-top: 0.45rem;
+        padding: 0.55rem 0.7rem;
+        border: 1px solid var(--line);
+        border-radius: 0.6rem;
+        background: #fbfcfe;
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 0.88rem;
+      }
+
+      .type-job-advice {
+        margin: 0.65rem 0 0 !important;
+        color: var(--muted) !important;
+        font-size: 0.82rem !important;
+        line-height: 1.6 !important;
+      }
+
+      .type-disclaimer {
+        margin-top: 1rem !important;
+        color: #8a94a5 !important;
+        font-size: 0.76rem !important;
+        line-height: 1.6;
+      }
+
+      .type-side-label {
+        color: var(--orange);
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.13em;
+      }
+
+      .type-diagnosis-side h3 {
+        margin: 0.8rem 0 1.25rem;
+        font-size: clamp(1.35rem, 2.8vw, 2rem);
+        letter-spacing: -0.04em;
+        line-height: 1.25;
+      }
+
+      .type-side-list {
+        display: grid;
+        gap: 0.9rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .type-side-list li {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        gap: 0.7rem;
+        align-items: start;
+        color: #c8d0df;
+        font-size: 0.88rem;
+        line-height: 1.55;
+      }
+
+      .type-side-list b {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border: 1px solid rgba(255, 180, 91, 0.45);
+        border-radius: 50%;
+        color: var(--orange);
+        font-size: 0.76rem;
+      }
+
+      .character-library {
+        margin-top: 3.25rem;
+      }
+
+      .character-library-note {
+        max-width: 620px;
+        margin: 0.55rem 0 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .character-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.8rem;
+        margin-top: 1.3rem;
+      }
+
+      .character-card {
+        padding: 0.9rem;
+        border: 1px solid var(--line);
+        border-radius: 0.95rem;
+        background: var(--paper);
+        box-shadow: 0 8px 25px rgba(16, 24, 47, 0.035);
+        transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      }
+
+      .character-card:hover {
+        border-color: var(--accent, var(--teal));
+        box-shadow: 0 13px 28px rgba(16, 24, 47, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .character-card-top {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.8rem;
+        align-items: center;
+      }
+
+      .character-number {
+        color: var(--accent, var(--teal));
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.09em;
+      }
+
+      .character-card h3 {
+        margin: 0.12rem 0 0;
+        font-size: 1rem;
+        line-height: 1.25;
+      }
+
+      .character-catch {
+        margin: 0.2rem 0 0;
+        color: var(--muted);
+        font-size: 0.77rem;
+        line-height: 1.45;
+      }
+
+      .character-visual {
+        margin: 0.75rem 0 0;
+        padding: 0.65rem 0.7rem;
+        border-radius: 0.6rem;
+        background: var(--accent-soft, #f5f7fb);
+        color: var(--ink-soft);
+        font-size: 0.76rem;
+        line-height: 1.55;
+      }
+
+      .character-visual strong {
+        display: block;
+        margin-bottom: 0.12rem;
+        color: var(--accent, var(--teal));
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+      }
+
+      .character-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        margin-top: 0.65rem;
+      }
+
+      .character-tags span {
+        padding: 0.2rem 0.4rem;
+        border: 1px solid #e6eaf1;
+        border-radius: 999px;
+        background: #fafbfd;
+        color: var(--ink-soft);
+        font-size: 0.68rem;
+        font-weight: 800;
+      }
+
+      .character-spec {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.35rem;
+        margin: 0.7rem 0 0;
+      }
+
+      .character-spec div {
+        padding-top: 0.4rem;
+        border-top: 1px solid #edf0f5;
+      }
+
+      .character-spec dt {
+        color: #9ca8b9;
+        font-size: 0.66rem;
+        font-weight: 800;
+      }
+
+      .character-spec dd {
+        margin: 0.08rem 0 0;
+        color: var(--ink-soft);
+        font-size: 0.72rem;
+        line-height: 1.4;
+      }
+
+      .hero-aside-label {
+        margin: 0 0 0.9rem;
+        color: #9eabc0;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+      }
+
+      .path-list {
+        display: grid;
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .path-list li {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        align-items: center;
+        gap: 0.7rem;
+        color: #f7fbff;
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+
+      .path-number {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border-radius: 50%;
+        background: rgba(100, 215, 211, 0.15);
+        color: var(--teal);
+        font-size: 0.8rem;
+      }
+
+      .section {
+        padding: 3.25rem 0 0;
+      }
+
+      .campaign-section {
+        padding-top: 1.15rem;
+      }
+
+      .campaign-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid #bfe4e1;
+        border-radius: 1.4rem;
+        background:
+          radial-gradient(circle at 9% 0%, rgba(27, 165, 161, 0.18), transparent 28%),
+          radial-gradient(circle at 100% 100%, rgba(239, 139, 60, 0.18), transparent 30%),
+          #effaf9;
+        box-shadow: var(--shadow);
+      }
+
+      .campaign-main {
+        padding: clamp(1.35rem, 4vw, 2.15rem);
+        border: 1px solid #d7efed;
+        border-radius: 1.05rem;
+        background: var(--paper);
+      }
+
+      .campaign-main h2 {
+        max-width: 650px;
+        margin: 0.8rem 0 0.65rem;
+        font-size: clamp(1.55rem, 3vw, 2.25rem);
+        letter-spacing: -0.04em;
+        line-height: 1.2;
+      }
+
+      .campaign-copy {
+        max-width: 650px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .campaign-prize {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.55rem;
+        margin: 1.25rem 0;
+        padding: 0.85rem 1rem;
+        border-left: 4px solid var(--orange);
+        border-radius: 0.65rem;
+        background: var(--orange-soft);
+        color: var(--ink-soft);
+        font-weight: 800;
+      }
+
+      .campaign-prize strong {
+        color: #b35c16;
+        font-size: clamp(1.8rem, 4vw, 2.55rem);
+        letter-spacing: -0.06em;
+        line-height: 1;
+      }
+
+      .campaign-status {
+        margin: 0;
+        padding: 0.8rem 0.9rem;
+        border: 1px dashed #b8cbc9;
+        border-radius: 0.65rem;
+        background: #f8fcfc;
+        color: #586b72;
+        font-size: 0.82rem;
+        line-height: 1.7;
+      }
+
+      .campaign-status strong {
+        color: var(--ink-soft);
+      }
+
+      .campaign-side {
+        display: flex;
+        min-height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(1.35rem, 4vw, 2rem);
+        border-radius: 1.05rem;
+        background:
+          radial-gradient(circle at 88% 8%, rgba(100, 215, 211, 0.2), transparent 27%),
+          var(--ink);
+        color: #f7fbff;
+      }
+
+      .campaign-side-label {
+        color: var(--teal);
+        font-size: 0.75rem;
+        font-weight: 900;
+        letter-spacing: 0.13em;
+      }
+
+      .campaign-side h3 {
+        margin: 0.75rem 0 1.05rem;
+        font-size: 1.25rem;
+        line-height: 1.35;
+      }
+
+      .campaign-steps {
+        display: grid;
+        gap: 0.7rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .campaign-steps li {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        gap: 0.65rem;
+        align-items: start;
+        color: #c8d0df;
+        font-size: 0.84rem;
+        line-height: 1.55;
+      }
+
+      .campaign-steps b {
+        display: grid;
+        width: 30px;
+        height: 30px;
+        place-items: center;
+        border: 1px solid rgba(100, 215, 211, 0.4);
+        border-radius: 50%;
+        color: var(--teal);
+        font-size: 0.74rem;
+      }
+
+      .campaign-side-note {
+        margin: 1rem 0 0;
+        color: #9eabc0;
+        font-size: 0.74rem;
+        line-height: 1.6;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.3rem;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(1.55rem, 3vw, 2.3rem);
+        letter-spacing: -0.04em;
+        line-height: 1.15;
+      }
+
+      .section-heading p {
+        max-width: 500px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .selector-panel {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 1.1rem;
+        background: var(--paper);
+        box-shadow: 0 8px 25px rgba(16, 24, 47, 0.04);
+      }
+
+      .filter-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .filter-button {
+        min-height: 42px;
+        padding: 0.6rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 0.7rem;
+        background: #fbfcfe;
+        color: var(--ink-soft);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 800;
+        transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+      }
+
+      .filter-button:hover,
+      .filter-button:focus-visible {
+        border-color: var(--teal);
+      }
+
+      .filter-button[aria-pressed="true"] {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .result-count {
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .program-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .program-card {
+        display: flex;
+        min-height: 270px;
+        flex-direction: column;
+        padding: 1.35rem;
+        border: 1px solid var(--line);
+        border-radius: 1.05rem;
+        background: var(--paper);
+        box-shadow: 0 8px 25px rgba(16, 24, 47, 0.035);
+        transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+      }
+
+      .program-card:hover {
+        border-color: #bec9db;
+        box-shadow: 0 15px 30px rgba(16, 24, 47, 0.08);
+        transform: translateY(-3px);
+      }
+
+      .program-card[hidden] {
+        display: none;
+      }
+
+      .card-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.7rem;
+        margin-bottom: 1.15rem;
+      }
+
+      .card-tag {
+        display: inline-flex;
+        padding: 0.28rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.73rem;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+      }
+
+      .tag-teal { background: var(--teal-soft); color: #177772; }
+      .tag-blue { background: var(--blue-soft); color: #3159ac; }
+      .tag-orange { background: var(--orange-soft); color: #ac5b1e; }
+      .tag-violet { background: var(--violet-soft); color: #64439f; }
+
+      .card-index {
+        color: #a5adbc;
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      .program-card h3 {
+        margin: 0;
+        font-size: 1.23rem;
+        letter-spacing: -0.025em;
+        line-height: 1.3;
+      }
+
+      .program-card p {
+        margin: 0.62rem 0 0;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.7;
+      }
+
+      .card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1rem;
+      }
+
+      .meta-pill {
+        padding: 0.25rem 0.5rem;
+        border: 1px solid #e6eaf1;
+        border-radius: 0.45rem;
+        background: #fafbfd;
+        color: var(--ink-soft);
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+
+      .card-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: auto;
+        padding-top: 1.15rem;
+        border: 0;
+        border-top: 1px solid #edf0f5;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 900;
+        text-align: left;
+        text-decoration: none;
+      }
+
+      .card-action span:last-child {
+        color: var(--teal);
+        font-size: 1.2rem;
+        line-height: 1;
+      }
+
+      .card-action:hover,
+      .card-action:focus-visible {
+        color: var(--teal);
+      }
+
+      .guide-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.8rem;
+      }
+
+      .guide-card {
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 0.9rem;
+        background: var(--paper);
+      }
+
+      .guide-card strong {
+        display: block;
+        margin-bottom: 0.3rem;
+        font-size: 0.96rem;
+      }
+
+      .guide-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+        line-height: 1.65;
+      }
+
+      .guide-icon {
+        display: grid;
+        width: 35px;
+        height: 35px;
+        margin-bottom: 0.8rem;
+        place-items: center;
+        border-radius: 0.65rem;
+        background: var(--ink);
+        color: var(--teal);
+        font-weight: 900;
+      }
+
+      .notice {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.9rem;
+        align-items: start;
+        margin: 3.25rem 0 0;
+        padding: 1.2rem 1.3rem;
+        border: 1px solid #f0d3ad;
+        border-radius: 1rem;
+        background: var(--orange-soft);
+      }
+
+      .notice-mark {
+        display: grid;
+        width: 29px;
+        height: 29px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--orange);
+        color: var(--ink);
+        font-size: 0.85rem;
+        font-weight: 900;
+      }
+
+      .notice h2 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .notice p {
+        margin: 0.2rem 0 0;
+        color: #6e543a;
+        font-size: 0.85rem;
+        line-height: 1.7;
+      }
+
+      .owner-panel {
+        margin: 2rem 0 0;
+        border: 1px dashed #bfc8d6;
+        border-radius: 1rem;
+        background: #f8fafc;
+      }
+
+      .owner-panel summary {
+        padding: 1rem 1.15rem;
+        color: var(--ink-soft);
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .owner-content {
+        padding: 0 1.15rem 1.1rem;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .owner-content ol {
+        margin: 0.4rem 0 0;
+        padding-left: 1.4rem;
+      }
+
+      .owner-content code {
+        padding: 0.1rem 0.3rem;
+        border-radius: 0.3rem;
+        background: #e9eef5;
+        color: var(--ink-soft);
+        font-size: 0.8rem;
+      }
+
+      .link-toast {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 30;
+        max-width: min(420px, calc(100% - 2rem));
+        padding: 0.8rem 1rem;
+        border: 1px solid #b7dfdc;
+        border-radius: 0.75rem;
+        background: var(--ink);
+        color: #f7fbff;
+        box-shadow: var(--shadow);
+        font-size: 0.85rem;
+        font-weight: 700;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(12px);
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+
+      .link-toast.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .site-footer {
+        margin-top: 4.5rem;
+        padding: 2rem 0 2.5rem;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+
+      .footer-inner p {
+        max-width: 650px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.7;
+      }
+
+      .footer-label {
+        color: var(--ink);
+        font-size: 0.84rem;
+        font-weight: 900;
+      }
+
+      :focus-visible {
+        outline: 3px solid rgba(27, 165, 161, 0.42);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .game-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .game-side {
+          min-height: 0;
+        }
+
+        .type-diagnosis-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .campaign-card {
+          grid-template-columns: 1fr;
+        }
+
+        .type-diagnosis-side {
+          min-height: 0;
+        }
+
+        .hero-aside {
+          align-self: start;
+        }
+
+        .program-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .guide-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .character-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 650px) {
+        .header-inner,
+        .page-shell {
+          width: min(100% - 1.25rem, 1160px);
+        }
+
+        .header-inner {
+          min-height: 64px;
+        }
+
+        .site-nav {
+          display: none;
+        }
+
+        .header-note {
+          padding: 0.4rem 0.6rem;
+          font-size: 0.7rem;
+        }
+
+        .hero-wrap {
+          padding-top: 0.75rem;
+        }
+
+        .hero {
+          min-height: 0;
+          padding: 1.55rem;
+          border-radius: 1.25rem;
+        }
+
+        .hero h1 {
+          font-size: clamp(2rem, 12vw, 3.2rem);
+        }
+
+        .hero-copy {
+          font-size: 0.96rem;
+        }
+
+        .game-main {
+          min-height: 0;
+          padding: 1.1rem;
+        }
+
+        .game-side {
+          padding: 1.25rem;
+        }
+
+        .type-diagnosis-main {
+          min-height: 0;
+          padding: 1.1rem;
+        }
+
+        .type-diagnosis-side {
+          padding: 1.25rem;
+        }
+
+        .type-start,
+        .type-result {
+          padding-top: 1.7rem;
+        }
+
+        .type-points,
+        .type-result-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .type-button {
+          width: 100%;
+        }
+
+        .type-result-heading {
+          grid-template-columns: 1fr;
+        }
+
+        .type-result-visual {
+          justify-items: start;
+        }
+
+        .type-result-label {
+          text-align: left;
+        }
+
+        .game-start,
+        .game-result {
+          padding-top: 1.7rem;
+        }
+
+        .game-points,
+        .result-metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .game-button {
+          width: 100%;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .section {
+          padding-top: 2.5rem;
+        }
+
+        .section-heading {
+          display: block;
+        }
+
+        .section-heading p {
+          margin-top: 0.6rem;
+          font-size: 0.9rem;
+        }
+
+        .selector-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .result-count {
+          justify-self: end;
+        }
+
+        .program-grid,
+        .guide-grid,
+        .character-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .notice {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-inner {
+          display: block;
+        }
+
+        .footer-label {
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へ移動</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="キャリア選択ガイドのトップへ">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span>キャリア選択ガイド</span>
+        </a>
+        <nav class="site-nav" aria-label="メインナビゲーション">
+          <a href="#type-diagnosis">キャラ診断</a>
+          <a href="#campaign">キャンペーン</a>
+          <a href="/GAME/">GAME</a>
+          <a href="#guide">選び方</a>
+          <a href="#programs">サービス一覧</a>
+          <a href="#about">このサイトについて</a>
+        </nav>
+        <span class="header-note"><span class="status-dot" aria-hidden="true"></span>情報を整理して掲載</span>
+      </div>
+    </header>
+
+    <main id="main">
+      <div id="top" class="page-shell hero-wrap">
+        <section class="hero" aria-labelledby="hero-title">
+          <div>
+            <span class="eyebrow">CAREER ROUTE / 01</span>
+            <h1 id="hero-title">次の仕事を、<em>今の自分</em>から選ぶ。</h1>
+            <p class="hero-copy">
+              未経験からの就職、IT・Web転職、フリーランス、ハイクラス転職まで。条件を先に決めるのではなく、今の経験や希望に合う入口から探せるキャリア情報ガイドです。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#type-diagnosis">キャラ診断をはじめる <span aria-hidden="true">↓</span></a>
+              <a class="button button-ghost" href="/GAME/">年収UP GAMEをプレイ</a>
+            </div>
+          </div>
+          <aside class="hero-aside" aria-label="サイトの使い方">
+            <p class="hero-aside-label">3 STEPS</p>
+            <ol class="path-list">
+              <li><span class="path-number">01</span><span>今の状況に近い入口を選ぶ</span></li>
+              <li><span class="path-number">02</span><span>対象・サポート内容を比べる</span></li>
+              <li><span class="path-number">03</span><span>公式情報を確認して申し込む</span></li>
+            </ol>
+          </aside>
+        </section>
+      </div>
+
+      <section id="campaign" class="page-shell campaign-section" aria-labelledby="campaign-title">
+        <div class="campaign-card">
+          <div class="campaign-main">
+            <span class="eyebrow">INTERVIEW CAMPAIGN / PRE-ANNOUNCEMENT</span>
+            <h2 id="campaign-title">転職後のリアルを、匿名で聞かせてください。</h2>
+            <p class="campaign-copy">
+              このサイト経由で転職し、実際に稼働を開始された方を対象に、転職後の経験を伺うインタビューアンケートを予定しています。匿名での参加も可能です。
+            </p>
+            <div class="campaign-prize" aria-label="キャンペーン概要">
+              <span>回答者の中から抽選で10名様に各</span>
+              <strong>10万円</strong>
+              <span>をプレゼント</span>
+            </div>
+            <p class="campaign-status">
+              <strong>主催：転職ゲーム運営事務局（キャリア選択ガイド内）</strong><br />
+              当選連絡は、応募時に使用したエントリーメールアドレス宛に返信します。正式な実施期間、タイアップ企業、応募条件、支払方法などは、規約公開時の最新情報をご確認ください。
+              <br /><a href="/campaign-terms.md">キャンペーン規約（ドラフト）</a> ・ <a href="/campaign-personal-data-purpose.md">個人情報の利用目的</a>
+            </p>
+          </div>
+          <aside class="campaign-side" aria-label="キャンペーン参加の流れ">
+            <span class="campaign-side-label">HOW IT WORKS</span>
+            <h3>転職の結果を、次の人の判断材料に。</h3>
+            <ol class="campaign-steps">
+              <li><b>01</b><span>診断で自分の強みと役割を整理する</span></li>
+              <li><b>02</b><span>公式情報を確認して転職サービスを比較する</span></li>
+              <li><b>03</b><span>転職・稼働開始後、匿名可のアンケートに回答する</span></li>
+            </ol>
+            <p class="campaign-side-note">転職や採用、年収を保証する企画ではありません。応募条件と最新情報は正式規約をご確認ください。</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="game" class="page-shell section" aria-labelledby="game-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">PLAY / CAREER CHECK</span>
+            <h2 id="game-title">年収UP可能性診断</h2>
+          </div>
+          <p>5問に答えて、今の経験から伸ばしやすいキャリアの方向をシミュレーションします。<br /><a href="/GAME/">アイコンで遊ぶゲーム版をひらく ↗</a></p>
+        </div>
+
+        <div class="game-shell" id="diagnostic-game">
+          <div class="game-main">
+            <div class="game-topline">
+              <span class="game-kicker">5 QUESTIONS / 3 MIN</span>
+              <span class="game-step" id="game-step">START</span>
+            </div>
+
+            <div class="game-view game-start" id="game-start-state">
+              <h3>あなたの経験から、次の一手を探す。</h3>
+              <p>年収だけでなく、スキル・働き方・今後の選択肢も含めて、あなたの「年収UP行動タイプ」を見つけます。</p>
+              <ul class="game-points" aria-label="診断でわかること">
+                <li>伸ばしやすい軸</li>
+                <li>最初の一手</li>
+                <li>合うサービス</li>
+              </ul>
+              <button class="game-button game-button-primary" id="start-game" type="button">診断を始める <span aria-hidden="true">→</span></button>
+            </div>
+
+            <div class="game-view game-question" id="game-question-state" hidden>
+              <div class="game-progress-line">
+                <span id="game-question-count">1 / 5</span>
+                <span><strong id="game-progress-copy">まずは今の仕事から</strong></span>
+              </div>
+              <progress class="game-progress" id="game-progress" max="5" value="1" aria-label="診断の進み具合"></progress>
+              <h3 id="question-title">いまの仕事にいちばん近いものは？</h3>
+              <div class="answer-list" id="choice-list"></div>
+              <div class="game-actions">
+                <button class="game-button game-button-primary" id="next-question" type="button" disabled>次の質問へ <span aria-hidden="true">→</span></button>
+              </div>
+            </div>
+
+            <div class="game-view game-result" id="game-result-state" hidden>
+              <p class="result-badge">DIAGNOSIS COMPLETE</p>
+              <h3 id="result-title">市場比較型</h3>
+              <p id="result-copy">今の経験を、別の環境で評価してもらうことで選択肢が広がりそうです。</p>
+              <div class="result-metrics">
+                <div class="result-metric"><span>伸ばしやすい軸</span><strong id="result-axis">経験の見せ方</strong></div>
+                <div class="result-metric"><span>最初の一手</span><strong id="result-next">求人を比較する</strong></div>
+              </div>
+              <p class="result-recommendation" id="result-recommendation">職務経歴書を整えて、同じ経験がどのくらい評価されるかを比べてみましょう。</p>
+              <div class="game-result-actions">
+                <a class="game-button game-button-primary" id="result-programs" href="#programs">サービスを見てみる <span aria-hidden="true">↗</span></a>
+                <button class="game-button game-button-secondary" id="restart-game" type="button">もう一度診断する</button>
+              </div>
+              <p class="game-disclaimer">この診断は一般的な傾向を使ったシミュレーションです。実際の年収・採用結果を保証するものではありません。</p>
+            </div>
+          </div>
+
+          <aside class="game-side" aria-label="診断の考え方">
+            <span class="game-side-label">WHY THIS GAME</span>
+            <h3>年収だけでなく、続けやすさも見る。</h3>
+            <ol class="game-side-list">
+              <li><b>01</b><span>いま持っている経験を整理する</span></li>
+              <li><b>02</b><span>伸ばせそうなスキルを見つける</span></li>
+              <li><b>03</b><span>求人・転職サービスを比較する</span></li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <section id="type-diagnosis" class="page-shell section" aria-labelledby="type-diagnosis-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">CHARACTER × ROLE / 140 PATTERNS</span>
+            <h2 id="type-diagnosis-title">あなたは、どんな働き方のキャラ？</h2>
+          </div>
+          <p>性格・戦い方の「キャラ軸」と、会社での役割の「職能ロール」を掛け合わせて、あなたらしい仕事の勝ち筋を言葉にします。</p>
+        </div>
+
+        <div class="type-diagnosis-shell" id="type-diagnosis-app">
+          <div class="type-diagnosis-main">
+            <div class="game-topline">
+              <span class="type-kicker">7 QUESTIONS / ABOUT 1 MIN</span>
+              <span class="type-step" id="type-step">START</span>
+            </div>
+
+            <div class="type-view type-start" id="type-start-state">
+              <h3>仕事の進め方を、ゲーム感覚で棚卸し。</h3>
+              <p>正解を当てる診断ではありません。直感で選ぶほど、あなたが自然に力を出せるキャラと役割が見えてきます。</p>
+              <ul class="type-points" aria-label="診断でわかること">
+                <li>20キャラから性格・戦い方</li>
+                <li>7ロールから会社での役割</li>
+                <li>140通りの仕事タイプ文</li>
+              </ul>
+              <button class="type-button type-button-primary" id="start-type-diagnosis" type="button">診断を始める</button>
+            </div>
+
+            <div class="type-view type-question" id="type-question-state" hidden>
+              <div class="type-progress-line">
+                <span id="type-question-count">1 / 7</span>
+                <span><strong id="type-question-axis">キャラ軸</strong></span>
+              </div>
+              <progress class="type-progress" id="type-progress" max="7" value="1" aria-label="キャラ診断の進み具合"></progress>
+              <h3 id="type-question-title">仕事で困りごとを見つけたら、まずどうする？</h3>
+              <p id="type-question-help">いちばん自然に取りそうな行動を選んでください。</p>
+              <div class="type-choice-list" id="type-choice-list"></div>
+              <div class="type-actions">
+                <button class="type-button type-button-primary" id="next-type-question" type="button" disabled>次の質問へ</button>
+              </div>
+            </div>
+
+            <div class="type-view type-result" id="type-result-state" hidden>
+              <p class="result-badge">TYPE RESULT / 140 PATTERNS</p>
+              <div class="type-result-heading">
+                <div>
+                  <h3 id="type-result-title">騎士型のアイデアメーカー</h3>
+                  <p class="type-result-intro" id="type-result-intro">理想を掲げて、まだ形のない可能性に旗を立てるタイプです。</p>
+                </div>
+                <div class="type-result-visual">
+                  <div class="sd-avatar" id="type-result-avatar" role="img" aria-label="診断結果のSDキャラ">🛡️</div>
+                  <span class="type-result-label" id="type-result-visual-label">白銀の旗槍ナイト</span>
+                </div>
+              </div>
+
+              <div class="type-result-grid">
+                <div class="type-result-card">
+                  <span>キャラ軸 / 性格・戦い方</span>
+                  <strong id="type-character-name">騎士型</strong>
+                  <p id="type-character-copy">「こうあるべき」という理想を、正面から掲げる。</p>
+                </div>
+                <div class="type-result-card">
+                  <span>職能ロール / 会社での役割</span>
+                  <strong id="type-role-name">アイデアメーカー</strong>
+                  <p id="type-role-copy">0→1の仮説を出し、まだない価値の種をつくる。</p>
+                </div>
+              </div>
+
+              <p class="type-result-story" id="type-result-story">あなたの武器は「理想 / 正義感 / 正面突破」。この組み合わせなら、壮大な案を本気で信じて旗を立てる力が、アイデアを形にする推進力になります。</p>
+
+              <div class="type-job-picker">
+                <label for="type-job-select">気になる職種を重ねる（任意）</label>
+                <select id="type-job-select">
+                  <option value="">職種を選ぶと、活かし方を表示します</option>
+                </select>
+                <p class="type-job-advice" id="type-job-advice">職種を選ぶと、このタイプの強みをどう見せるか提案します。</p>
+              </div>
+
+              <div class="type-result-actions">
+                <a class="type-button type-button-primary" id="type-income-next" href="#game">年収UPの方向性を5問で見る</a>
+                <a class="type-button type-button-secondary" href="#programs">転職サービスを比較する</a>
+                <button class="type-button type-button-secondary" id="restart-type-diagnosis" type="button">もう一度診断する</button>
+              </div>
+              <p class="type-disclaimer">この診断は仕事の進め方を考えるための一般的なシミュレーションです。適性・採用・年収などの結果を保証するものではありません。年収700万円の可否を判定するものではなく、強みをどの役割・市場で伝えやすいかを整理するための診断です。</p>
+            </div>
+          </div>
+
+          <aside class="type-diagnosis-side" aria-label="キャラ診断の考え方">
+            <span class="type-side-label">HOW THE 140 TYPES WORK</span>
+            <h3>性格と役割を分けると、強みが見えやすい。</h3>
+            <ol class="type-side-list">
+              <li><b>01</b><span><strong>キャラ軸</strong><br />理想、行動、分析、支援など、仕事での戦い方を見ます。</span></li>
+              <li><b>02</b><span><strong>職能ロール</strong><br />0→1、戦略、実行、改善など、会社で担いやすい役割を見ます。</span></li>
+              <li><b>03</b><span><strong>掛け合わせ</strong><br />同じアイデアメーカーでも、騎士型と道化師型では出し方が違います。</span></li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+
+      <section id="character-library" class="page-shell section character-library" aria-labelledby="character-library-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">20 CHARACTER SETTINGS</span>
+            <h2 id="character-library-title">20キャラ図鑑 / SD設定</h2>
+          </div>
+          <p class="character-library-note">診断結果に表示するSDキャラの方向性を、色・小物・ポーズまで設定しています。あとから本イラストやスプライトに差し替えやすいデータ構造です。</p>
+        </div>
+        <div class="character-grid" id="character-library-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="guide" class="page-shell section" aria-labelledby="guide-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">HOW TO CHOOSE</span>
+            <h2 id="guide-title">最初に、目的をひとつ選ぶ</h2>
+          </div>
+          <p>迷ったら「いちばん近いもの」で大丈夫です。複数のサービスを見比べて、自分に合うかを公式ページで確認しましょう。</p>
+        </div>
+        <div class="guide-grid">
+          <article class="guide-card">
+            <span class="guide-icon" aria-hidden="true">01</span>
+            <strong>未経験から正社員</strong>
+            <p>第二新卒、既卒、フリーター、ニートなど、経験よりもこれからを相談したい人向け。</p>
+          </article>
+          <article class="guide-card">
+            <span class="guide-icon" aria-hidden="true">02</span>
+            <strong>IT・Webに転職</strong>
+            <p>エンジニア、Web、ゲームなど、専門アドバイザーに相談しながら進めたい人向け。</p>
+          </article>
+          <article class="guide-card">
+            <span class="guide-icon" aria-hidden="true">03</span>
+            <strong>フリーランスで働く</strong>
+            <p>案件探し、単価、リモート、契約後のフォローなどをまとめて相談したい人向け。</p>
+          </article>
+          <article class="guide-card">
+            <span class="guide-icon" aria-hidden="true">04</span>
+            <strong>年収・英語を活かす</strong>
+            <p>管理職、専門職、外資系、コンサルなど、経験を次のキャリアにつなげたい人向け。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="programs" class="page-shell section" aria-labelledby="program-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">SERVICE MAP</span>
+            <h2 id="program-title">状況別のサービス一覧</h2>
+          </div>
+          <p>掲載中のサービスは、アクセストレードで確認した案件情報をもとに整理しています。対象地域や条件は変わる場合があります。</p>
+        </div>
+
+        <div class="selector-panel" aria-label="サービスの絞り込み">
+          <div class="filter-list" role="group" aria-label="目的を選ぶ">
+            <button class="filter-button" type="button" data-filter="all" aria-pressed="true">すべて</button>
+            <button class="filter-button" type="button" data-filter="beginner" aria-pressed="false">未経験・20代</button>
+            <button class="filter-button" type="button" data-filter="it" aria-pressed="false">IT・Web</button>
+            <button class="filter-button" type="button" data-filter="freelance" aria-pressed="false">フリーランス</button>
+            <button class="filter-button" type="button" data-filter="highclass" aria-pressed="false">ハイクラス・英語</button>
+            <button class="filter-button" type="button" data-filter="special" aria-pressed="false">資格・派遣</button>
+            <button class="filter-button" type="button" data-filter="research" aria-pressed="false">口コミ・就活</button>
+          </div>
+          <span class="result-count" id="result-count" aria-live="polite">19件を表示</span>
+        </div>
+
+        <div class="program-grid" id="program-grid">
+          <article class="program-card" data-tags="beginner">
+            <div class="card-topline"><span class="card-tag tag-orange">未経験・20代</span><span class="card-index">01</span></div>
+            <h3>キャリアスタート</h3>
+            <p>第二新卒・既卒・フリーターなど、未経験から正社員を目指す人の面接対策と就職サポート。</p>
+            <div class="card-meta"><span class="meta-pill">20〜29歳</span><span class="meta-pill">面談</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-career-start" data-program="キャリアスタート"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="beginner">
+            <div class="card-topline"><span class="card-tag tag-orange">未経験・20代</span><span class="card-index">02</span></div>
+            <h3>UZUZ</h3>
+            <p>第二新卒・既卒・フリーター・ニート向け。書類添削や模擬面接など、就職活動を伴走。</p>
+            <div class="card-meta"><span class="meta-pill">10〜20代</span><span class="meta-pill">無料登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-uzuz" data-program="UZUZ"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="beginner">
+            <div class="card-topline"><span class="card-tag tag-orange">未経験・20代</span><span class="card-index">03</span></div>
+            <h3>ハタラクティブ</h3>
+            <p>フリーター・既卒・第二新卒など、未経験歓迎の正社員求人を中心に探したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">18〜34歳</span><span class="meta-pill">無料登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-hataractive" data-program="ハタラクティブ"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="beginner">
+            <div class="card-topline"><span class="card-tag tag-orange">未経験・20代</span><span class="card-index">04</span></div>
+            <h3>マイナビジョブ20's</h3>
+            <p>20代の転職・キャリア相談。適性診断、書類作成、面接準備などを一緒に進めたい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">20代</span><span class="meta-pill">会員登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-mynavi20s" data-program="マイナビジョブ20's"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="it">
+            <div class="card-topline"><span class="card-tag tag-blue">IT・Web</span><span class="card-index">05</span></div>
+            <h3>レバテック キャリア</h3>
+            <p>IT・Webエンジニア経験者向け。業界を知るアドバイザーに求人やキャリアを相談。</p>
+            <div class="card-meta"><span class="meta-pill">IT/Web経験者</span><span class="meta-pill">無料登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-levtech-career" data-program="レバテック キャリア"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="it">
+            <div class="card-topline"><span class="card-tag tag-blue">IT・Web</span><span class="card-index">06</span></div>
+            <h3>ギークリー</h3>
+            <p>IT・Web・ソーシャルゲーム業界に特化。経験や希望条件をもとに求人を探したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">IT/Web/ゲーム</span><span class="meta-pill">面談</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-geekly" data-program="ギークリー"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="it">
+            <div class="card-topline"><span class="card-tag tag-blue">IT・Web</span><span class="card-index">07</span></div>
+            <h3>キッカケエージェント</h3>
+            <p>ITエンジニア特化。キャリアビジョンの整理から書類・面接対策まで丁寧に相談したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">エンジニア経験者</span><span class="meta-pill">面談</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-kikkake" data-program="キッカケエージェント"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="it">
+            <div class="card-topline"><span class="card-tag tag-blue">IT・Web</span><span class="card-index">08</span></div>
+            <h3>リクルートエージェント</h3>
+            <p>幅広い業界・職種から検討したい人向け。求人紹介、応募書類、面接までまとめて相談。</p>
+            <div class="card-meta"><span class="meta-pill">幅広い職種</span><span class="meta-pill">転職支援</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-recruit-agent" data-program="リクルートエージェント"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="freelance">
+            <div class="card-topline"><span class="card-tag tag-teal">フリーランス</span><span class="card-index">09</span></div>
+            <h3>レバテックフリーランス</h3>
+            <p>Web系を中心に、案件探しから参画後のフォローまで相談できるフリーランス向けサービス。</p>
+            <div class="card-meta"><span class="meta-pill">エンジニア</span><span class="meta-pill">無料登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-levtech-freelance" data-program="レバテックフリーランス"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="freelance">
+            <div class="card-topline"><span class="card-tag tag-teal">フリーランス</span><span class="card-index">10</span></div>
+            <h3>レバテッククリエイター</h3>
+            <p>Webサービス・ゲーム系のデザイナーやクリエイター向け。案件とキャリアを相談したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">Web/ゲーム</span><span class="meta-pill">クリエイター</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-levtech-creator" data-program="レバテッククリエイター"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="freelance">
+            <div class="card-topline"><span class="card-tag tag-teal">フリーランス</span><span class="card-index">11</span></div>
+            <h3>Midworks</h3>
+            <p>ITエンジニア・Webデザイナー向け。案件と、フリーランスの働き方を相談したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">IT系</span><span class="meta-pill">案件紹介</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-midworks" data-program="Midworks"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="highclass">
+            <div class="card-topline"><span class="card-tag tag-violet">ハイクラス・英語</span><span class="card-index">12</span></div>
+            <h3>JAC Recruitment</h3>
+            <p>管理・専門職、ミドル・ハイクラス向け。これまでの経験を活かして年収を上げたい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">年収600万円〜目安</span><span class="meta-pill">求人登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-jac" data-program="JAC Recruitment"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="highclass">
+            <div class="card-topline"><span class="card-tag tag-violet">ハイクラス・英語</span><span class="card-index">13</span></div>
+            <h3>エンワールド</h3>
+            <p>英語力を活かして、外資系・日系グローバル企業への転職を目指す人向け。</p>
+            <div class="card-meta"><span class="meta-pill">英語・グローバル</span><span class="meta-pill">面談</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-enworld" data-program="エンワールド"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="highclass">
+            <div class="card-topline"><span class="card-tag tag-violet">ハイクラス・英語</span><span class="card-index">14</span></div>
+            <h3>ロバート・ウォルターズ</h3>
+            <p>外資系・日系グローバル企業で、英語を使う仕事を探したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">英語を活かす</span><span class="meta-pill">求人登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-robert-walters" data-program="ロバート・ウォルターズ"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="highclass it">
+            <div class="card-topline"><span class="card-tag tag-violet">ハイクラス・英語</span><span class="card-index">15</span></div>
+            <h3>コンサル転職 MyVision</h3>
+            <p>コンサル業界への転職を考える20〜30代。ケース面接などの選考対策も相談したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">20〜30代</span><span class="meta-pill">無料相談</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-myvision" data-program="MyVision"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="special">
+            <div class="card-topline"><span class="card-tag tag-teal">資格・派遣</span><span class="card-index">16</span></div>
+            <h3>レバウェル看護</h3>
+            <p>看護師・保健師・助産師など、資格を活かして転職・復職を考える人向け。</p>
+            <div class="card-meta"><span class="meta-pill">全国対応</span><span class="meta-pill">無料登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-levewell" data-program="レバウェル看護"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="special">
+            <div class="card-topline"><span class="card-tag tag-teal">資格・派遣</span><span class="card-index">17</span></div>
+            <h3>テンプスタッフ</h3>
+            <p>派遣で働きたい人向け。職種や勤務地、未経験からのチャレンジを相談したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">派遣</span><span class="meta-pill">来社予約</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-tempstaff" data-program="テンプスタッフ"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="research">
+            <div class="card-topline"><span class="card-tag tag-blue">口コミ・就活</span><span class="card-index">18</span></div>
+            <h3>転職会議</h3>
+            <p>転職前に企業の口コミや求人を調べたい人向け。情報収集からじっくり始めたい人に。</p>
+            <div class="card-meta"><span class="meta-pill">企業口コミ</span><span class="meta-pill">会員登録</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-jobtalk" data-program="転職会議"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="program-card" data-tags="research">
+            <div class="card-topline"><span class="card-tag tag-orange">口コミ・就活</span><span class="card-index">19</span></div>
+            <h3>キャリアパーク</h3>
+            <p>就活生向けの自己分析や適職診断から、仕事選びの軸を整理したい人向け。</p>
+            <div class="card-meta"><span class="meta-pill">就活生</span><span class="meta-pill">適職診断</span></div>
+            <a class="card-action affiliate-link" href="#affiliate-careerpark" data-program="キャリアパーク"><span>サービスの詳細を見る</span><span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+
+        <div class="notice" id="about">
+          <span class="notice-mark" aria-hidden="true">i</span>
+          <div>
+            <h2>広告・情報について</h2>
+            <p>このサイトはアフィリエイト広告を利用する予定です。掲載内容は提供資料をもとに整理したもので、サービスの条件・対象地域・広告ルールは変更される場合があります。申し込み前に、各公式ページと最新の掲載条件を確認してください。</p>
+          </div>
+        </div>
+
+        <details class="owner-panel">
+          <summary>公開前の運営者チェック（サイト所有者向け）</summary>
+          <div class="owner-content">
+            <ol>
+              <li>各カードの「サービスの詳細を見る」を、アクセストレードで取得した該当プログラムの広告リンクへ差し替える。</li>
+              <li>広告主ごとの掲載ルール、NGワード、リスティング条件を確認してから公開する。</li>
+              <li>運営者情報・お問い合わせ先・プライバシーポリシーを、公開する運営形態に合わせて追加する。</li>
+              <li>求人件数・実績・満足度などの数字を掲載する場合は、出典と基準日を明記する。</li>
+            </ol>
+            <p>現在のリンクは <code>#affiliate-...</code> の仮置きです。実リンクを設定するまで、一般公開用の成果導線としては使用しないでください。</p>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <div class="link-toast" id="link-toast" role="status" aria-live="polite"></div>
+
+    <footer class="site-footer">
+      <div class="page-shell footer-inner">
+        <span class="footer-label">キャリア選択ガイド</span>
+        <p>転職・就職・働き方を考える人のための情報整理サイト。広告掲載により報酬を受け取る場合があります。掲載情報は各サービスの公式情報と最新条件をご確認ください。</p>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const filterButtons = [...document.querySelectorAll("[data-filter]")];
+        const cards = [...document.querySelectorAll(".program-card")];
+        const resultCount = document.querySelector("#result-count");
+        const toast = document.querySelector("#link-toast");
+        let toastTimer;
+
+        const campaignContext = (() => {
+          const params = new URLSearchParams(window.location.search);
+          return {
+            utm_source: params.get("utm_source") || "direct",
+            utm_campaign: params.get("utm_campaign") || "none",
+            utm_content: params.get("utm_content") || "none"
+          };
+        })();
+
+        const trackEvent = (name, params = {}) => {
+          const payload = { ...campaignContext, ...params };
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: name, ...payload });
+          if (typeof window.gtag === "function") {
+            window.gtag("event", name, payload);
+          }
+          window.dispatchEvent(new CustomEvent("career:analytics", { detail: { name, ...payload } }));
+        };
+
+        const showToast = (program) => {
+          toast.textContent = `${program}の広告リンクはまだ設定されていません。公開前にAccessTradeのリンクへ差し替えてください。`;
+          toast.classList.add("is-visible");
+          window.clearTimeout(toastTimer);
+          toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 4200);
+        };
+
+        const applyFilter = (filter) => {
+          let visible = 0;
+          cards.forEach((card) => {
+            const matches = filter === "all" || card.dataset.tags.split(" ").includes(filter);
+            card.hidden = !matches;
+            if (matches) visible += 1;
+          });
+          resultCount.textContent = `${visible}件を表示`;
+          filterButtons.forEach((button) => {
+            button.setAttribute("aria-pressed", String(button.dataset.filter === filter));
+          });
+        };
+
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", () => applyFilter(button.dataset.filter));
+        });
+
+        document.querySelectorAll(".affiliate-link").forEach((link) => {
+          link.addEventListener("click", (event) => {
+            if (link.getAttribute("href").startsWith("#affiliate-")) {
+              event.preventDefault();
+              showToast(link.dataset.program);
+            }
+          });
+        });
+
+        const characterData = [
+          {
+            id: "knight",
+            name: "騎士型",
+            icon: "🛡️",
+            accent: "#667eea",
+            soft: "#edf0ff",
+            catchphrase: "正義を掲げて突き進む理想家",
+            keywords: ["理想", "正義感", "正面突破"],
+            visual: "白銀の鎧に青いマント。旗を掲げて一歩前へ。",
+            gear: "旗槍",
+            pose: "胸を張って前進",
+            resultLabel: "白銀の旗槍ナイト",
+            quote: "「こうあるべき」を信じて道を開きます",
+            growth: "現実との調整役がいると、理想を実装まで運べます",
+            best: "壮大な構想や、チームが迷っている場面で先頭に立つこと"
+          },
+          {
+            id: "warrior",
+            name: "戦士型",
+            icon: "⚔️",
+            accent: "#e35d6a",
+            soft: "#ffecef",
+            catchphrase: "とにかく行動、数字で語るアタッカー",
+            keywords: ["情熱", "行動力", "負けん気"],
+            visual: "赤いバンダナと軽装の鎧。走りながら剣を抜く。",
+            gear: "双剣",
+            pose: "踏み込んで攻撃",
+            resultLabel: "赤熱のツインブレード",
+            quote: "考えすぎる前に一件目へ飛び込みます",
+            growth: "勢いを再現できる仕組みに変えると、強さが長続きします",
+            best: "目標が明確な前線や、短いサイクルで成果を出すこと"
+          },
+          {
+            id: "martial",
+            name: "武闘家型",
+            icon: "🥋",
+            accent: "#ef8b3c",
+            soft: "#fff0df",
+            catchphrase: "現場で体現するストイック職人",
+            keywords: ["鍛錬", "実直", "現場主義"],
+            visual: "道着に帯、額には汗。黙々と型を繰り返す。",
+            gear: "鍛錬具",
+            pose: "足腰を落として構える",
+            resultLabel: "鍛錬の現場ファイター",
+            quote: "まず自分でやって、できる形を見せます",
+            growth: "経験を言葉と型にすると、周りの再現性まで高められます",
+            best: "現場で試して改善する仕事や、手を動かすリーダー役"
+          },
+          {
+            id: "priest",
+            name: "僧侶型",
+            icon: "🧘",
+            accent: "#35a99e",
+            soft: "#e5f7f4",
+            catchphrase: "聞いて癒やし、整えるサポーター",
+            keywords: ["共感", "傾聴", "安定"],
+            visual: "やわらかなローブと小さな法具。相手の隣で静かに微笑む。",
+            gear: "癒やしの杖",
+            pose: "両手を広げて受け止める",
+            resultLabel: "深緑のヒーリングガイド",
+            quote: "相手の困りごとを聞き切ってから動きます",
+            growth: "支えた成果を見える化すると、縁の下の価値が伝わります",
+            best: "相談、保守、伴走など、安心感が成果に直結する場面"
+          },
+          {
+            id: "wizard",
+            name: "魔法使い型",
+            icon: "🪄",
+            accent: "#9a62d1",
+            soft: "#f3eaff",
+            catchphrase: "常識外の発想をぶち込む天才肌",
+            keywords: ["発想", "独創", "好奇心"],
+            visual: "大きな帽子と星柄ローブ。頭上にアイデアの火花が弾ける。",
+            gear: "ひらめきの杖",
+            pose: "片目を閉じて魔法を放つ",
+            resultLabel: "紫電のアイデアメイジ",
+            quote: "みんなが見慣れた前提に、別の入口をつくります",
+            growth: "実験の条件と説明を残すと、ひらめきがチームの資産になります",
+            best: "新規企画、表現、プロトタイプなど自由度の高い仕事"
+          },
+          {
+            id: "sage",
+            name: "賢者型",
+            icon: "📚",
+            accent: "#4777d7",
+            soft: "#e8efff",
+            catchphrase: "データと論理で解を導く参謀",
+            keywords: ["分析", "論理", "冷静"],
+            visual: "眼鏡と深い青のローブ。浮かぶデータを静かに読み解く。",
+            gear: "解析書",
+            pose: "片手で数式を組み立てる",
+            resultLabel: "紺碧のデータセージ",
+            quote: "感覚を分解して、判断できる材料に変えます",
+            growth: "結論だけでなく、相手が動ける翻訳まで添えると強くなります",
+            best: "分析、設計、意思決定の前に勝ち筋を整理すること"
+          },
+          {
+            id: "thief",
+            name: "盗賊型",
+            icon: "🗝️",
+            accent: "#6d7387",
+            soft: "#eef0f5",
+            catchphrase: "要領よく、美味しい所を見つける情報通",
+            keywords: ["機敏", "要領", "情報戦"],
+            visual: "短いマントとたくさんのポケット。宝箱の隙間を見逃さない。",
+            gear: "情報キー",
+            pose: "身を低くして機会を狙う",
+            resultLabel: "月影の情報スカウト",
+            quote: "最短ルートと、まだ誰も拾っていない情報を探します",
+            growth: "見つけた近道を共有すると、個人技がチームの武器になります",
+            best: "市場調査、営業機会、業務の隙間を素早くつかむこと"
+          },
+          {
+            id: "ninja",
+            name: "忍者型",
+            icon: "🥷",
+            accent: "#40536b",
+            soft: "#e9eef5",
+            catchphrase: "表に出ずに全部終わらせる裏方",
+            keywords: ["効率", "縁の下", "段取り"],
+            visual: "濃紺の忍装束に道具袋。気づくと仕事だけが片付いている。",
+            gear: "段取り手裏剣",
+            pose: "気配を消して先回り",
+            resultLabel: "濃紺のステルスオペレーター",
+            quote: "誰かが困る前に、裏側の詰まりを消します",
+            growth: "見えない仕事の効果を数字や手順で残すと評価されます",
+            best: "運用、進行管理、仕組み化など、静かな精度が効くこと"
+          },
+          {
+            id: "archer",
+            name: "弓使い型",
+            icon: "🏹",
+            accent: "#2f9c95",
+            soft: "#e5f7f4",
+            catchphrase: "一点集中で仕留める狙撃手",
+            keywords: ["集中", "精密", "静"],
+            visual: "緑のフードに細身の弓。遠くの的だけをまっすぐ見る。",
+            gear: "照準弓",
+            pose: "呼吸を止めて狙いを定める",
+            resultLabel: "翠玉のフォーカスアーチャー",
+            quote: "やることを絞り、決めた一点の精度を上げます",
+            growth: "集中するテーマを周りと共有すると、孤立せず成果が伸びます",
+            best: "専門領域、品質、数値目標など、狙いが明確な仕事"
+          },
+          {
+            id: "merchant",
+            name: "商人型",
+            icon: "🪙",
+            accent: "#c5842c",
+            soft: "#fff4df",
+            catchphrase: "数字と人で価値を生む交渉人",
+            keywords: ["数字", "交渉", "ビジネス感覚"],
+            visual: "金糸のベストと大きな帳簿。笑顔で価値の交換を設計する。",
+            gear: "価値の天秤",
+            pose: "片手を差し出し交渉",
+            resultLabel: "黄金のバリュートレーダー",
+            quote: "相手の得と自分の得が重なる場所を見つけます",
+            growth: "短期の数字と長期の信頼を両方追うと、提案力が深まります",
+            best: "営業、事業、予算など、人と数字を動かすこと"
+          },
+          {
+            id: "blacksmith",
+            name: "鍛冶屋型",
+            icon: "🔨",
+            accent: "#a85c3e",
+            soft: "#fff0ea",
+            catchphrase: "作って直して育てる職人",
+            keywords: ["ものづくり", "改善", "品質"],
+            visual: "革エプロンとゴーグル。火花の中で道具を磨き続ける。",
+            gear: "改善ハンマー",
+            pose: "熱した素材を叩いて形にする",
+            resultLabel: "火花のクラフトビルダー",
+            quote: "一度作って終わりではなく、使われるほど良くします",
+            growth: "改善前後の差分を残すと、丁寧さが事業成果に変わります",
+            best: "プロダクト、制作、品質管理など、育てる仕事"
+          },
+          {
+            id: "bard",
+            name: "吟遊詩人型",
+            icon: "🎤",
+            accent: "#d35a9d",
+            soft: "#ffedf7",
+            catchphrase: "人を巻き込み、空気を変える表現者",
+            keywords: ["発信", "表現", "ムード"],
+            visual: "カラフルな羽飾りと楽器。場に音符と笑顔を連れてくる。",
+            gear: "共鳴マイク",
+            pose: "片足を上げて歌いかける",
+            resultLabel: "桃色のムードバード",
+            quote: "伝え方を変えて、止まっていた人の心を動かします",
+            growth: "盛り上げるだけでなく、次の行動まで設計すると強みが締まります",
+            best: "広報、営業、採用、コミュニティなど、人の温度が必要な仕事"
+          },
+          {
+            id: "navigator",
+            name: "航海士型",
+            icon: "🧭",
+            accent: "#318ca6",
+            soft: "#e4f5f8",
+            catchphrase: "地図を描いて未来へ導く設計者",
+            keywords: ["俯瞰", "設計", "未来予測"],
+            visual: "羅針盤とロングコート。遠くの島まで航路を描く。",
+            gear: "未来コンパス",
+            pose: "水平線を指して進路を示す",
+            resultLabel: "蒼海のロードマッパー",
+            quote: "目の前の作業を、未来の目的地から逆算します",
+            growth: "計画を小さな実験に落とすと、構想が現場で動き始めます",
+            best: "事業企画、PM、編集など、全体像と順序を描くこと"
+          },
+          {
+            id: "king",
+            name: "王様型",
+            icon: "👑",
+            accent: "#b26a32",
+            soft: "#fff1df",
+            catchphrase: "決めて、背負って、進めるリーダー",
+            keywords: ["決断", "責任", "求心力"],
+            visual: "深紅のマントと王冠。迷う会議に決定の旗を立てる。",
+            gear: "決断の王笏",
+            pose: "一歩高い場所から指揮する",
+            resultLabel: "深紅のデシジョンキング",
+            quote: "情報が揃い切らなくても、責任を引き受けて決めます",
+            growth: "任せる範囲を広げると、ひとりの決断が組織の力になります",
+            best: "マネジメント、事業推進、難しい優先順位を決めること"
+          },
+          {
+            id: "summoner",
+            name: "召喚士型",
+            icon: "🔗",
+            accent: "#7a66c7",
+            soft: "#f0eaff",
+            catchphrase: "人と人を繋げて力を召喚するプロデューサー",
+            keywords: ["巻き込み力", "人脈", "プロデュース"],
+            visual: "光る契約書と複数の精霊。違う得意を一つの場に集める。",
+            gear: "つながりの紋章",
+            pose: "仲間を輪の中へ招く",
+            resultLabel: "紫紺のネットワークサモナー",
+            quote: "ひとりで足りない力を、得意な人との接点で呼び出します",
+            growth: "関係者の目的を言語化すると、巻き込みが継続的な仕組みになります",
+            best: "企画、イベント、採用、アライアンスなど、人を編成すること"
+          },
+          {
+            id: "alchemist",
+            name: "錬金術師型",
+            icon: "⚗️",
+            accent: "#38a88e",
+            soft: "#e3f8f0",
+            catchphrase: "実験と研究で無から有を生む",
+            keywords: ["研究", "実験", "探究心"],
+            visual: "小瓶と白衣。失敗の煙の中から新しい素材を見つける。",
+            gear: "仮説フラスコ",
+            pose: "液体を混ぜて結果を待つ",
+            resultLabel: "翠緑のリサーチアルケミスト",
+            quote: "小さく試して、未知を使える知恵に変えます",
+            growth: "仮説・結果・次の一手を共有すると、研究が事業に接続します",
+            best: "R&D、データ、商品開発など、探索と検証を繰り返すこと"
+          },
+          {
+            id: "dragon",
+            name: "竜騎士型",
+            icon: "🐉",
+            accent: "#d45b42",
+            soft: "#ffede8",
+            catchphrase: "誰も行かない高所へ挑む挑戦者",
+            keywords: ["挑戦", "独立", "野心"],
+            visual: "翼竜にまたがる軽装の騎士。雲の上の旗を目指す。",
+            gear: "飛翔ランス",
+            pose: "高く舞い上がって先陣を切る",
+            resultLabel: "紅蓮のスカイチャレンジャー",
+            quote: "前例がない場所ほど、自分で確かめに行きます",
+            growth: "挑戦のリスクと撤退条件を決めると、野心が信頼に変わります",
+            best: "新規事業、起業、難易度の高い目標へ飛び込むこと"
+          },
+          {
+            id: "paladin",
+            name: "聖騎士型",
+            icon: "✨",
+            accent: "#d0a12d",
+            soft: "#fff8dc",
+            catchphrase: "信念で守り、育てる教育者",
+            keywords: ["育成", "信念", "守護"],
+            visual: "白金の鎧と光の盾。後ろの仲間を守りながら道を示す。",
+            gear: "光盾",
+            pose: "盾を構えて仲間をかばう",
+            resultLabel: "白金のガーディアンティーチャー",
+            quote: "守るだけでなく、相手が自走できるところまで育てます",
+            growth: "信念を押しつけず、相手の選択肢を増やすと影響力が広がります",
+            best: "育成、マネジメント、顧客支援など、成長に伴走すること"
+          },
+          {
+            id: "jester",
+            name: "道化師型",
+            icon: "🃏",
+            accent: "#c752a0",
+            soft: "#ffecf8",
+            catchphrase: "常識を崩して笑いに変えるトリックスター",
+            keywords: ["ユーモア", "自由", "柔軟性"],
+            visual: "左右色違いの帽子と鈴。固まった空気をひと声でひっくり返す。",
+            gear: "逆転カード",
+            pose: "くるりと回って別案を出す",
+            resultLabel: "虹色のルールブレイカー",
+            quote: "正しさで固まった場に、別の見方と余白を持ち込みます",
+            growth: "遊び心の裏に目的を置くと、奇抜さが成果として届きます",
+            best: "企画、クリエイティブ、組織変革など、空気を変えること"
+          },
+          {
+            id: "guardian",
+            name: "番人型",
+            icon: "🏰",
+            accent: "#5f708a",
+            soft: "#e9eef5",
+            catchphrase: "最後まで守り抜く品質の砦",
+            keywords: ["安定", "保守", "継続"],
+            visual: "大きな盾と要塞の鍵。小さな異変も見逃さず門を守る。",
+            gear: "品質の鍵",
+            pose: "門の前で静かに見張る",
+            resultLabel: "鉄壁のクオリティキーパー",
+            quote: "当たり前に動き続ける状態を、丁寧に守ります",
+            growth: "守る基準を柔らかく更新すると、安定と変化を両立できます",
+            best: "品質保証、運用、バックオフィスなど、継続を支えること"
+          }
+        ];
+
+        const roleData = [
+          {
+            id: "idea",
+            name: "アイデアメーカー",
+            short: "0→1を生む",
+            verb: "まだない案を出し",
+            roleCopy: "仮説と可能性を見つけ、最初の形にする役割です",
+            strength: "ゼロから企画の種をつくる力",
+            scene: "正解が決まっていないテーマで、最初の一歩をつくります",
+            deliverable: "新しい企画・仮説・試作品"
+          },
+          {
+            id: "strategist",
+            name: "参謀役",
+            short: "戦略と分析で勝ち筋を作る",
+            verb: "情報を整理して勝ち筋を描く",
+            roleCopy: "データと構造から、進むべき順番をつくる役割です",
+            strength: "複雑な状況を分解し、判断材料に変える力",
+            scene: "選択肢が多い場面で、チームが迷わない道筋を示します",
+            deliverable: "戦略・分析・ロードマップ"
+          },
+          {
+            id: "producer",
+            name: "仕掛け人 / プロデューサー",
+            short: "人と企画を繋げて形にする",
+            verb: "人と企画を編成して形にする",
+            roleCopy: "得意の違う人をつなぎ、動くプロジェクトにする役割です",
+            strength: "関係者の目的を揃え、協力関係をつくる力",
+            scene: "ひとりでは届かない企画を、仲間と現実の成果へ運びます",
+            deliverable: "チーム編成・企画進行・協業"
+          },
+          {
+            id: "attacker",
+            name: "実行部隊 / アタッカー",
+            short: "決めたことをやり切る",
+            verb: "決めたことを最速で実行する",
+            roleCopy: "決まった方向へ踏み込み、成果が出るまでやり切る役割です",
+            strength: "行動量と粘りで、計画を結果へ変える力",
+            scene: "今すぐ動く必要がある場面で、先陣を切って突破します",
+            deliverable: "行動・商談・ローンチ・達成"
+          },
+          {
+            id: "craft",
+            name: "職人 / 改善屋",
+            short: "品質と仕組みを磨き続ける",
+            verb: "仕組みと品質を磨き続ける",
+            roleCopy: "小さな改善を積み重ね、成果が続く仕組みにする役割です",
+            strength: "使う人の声を拾い、品質と再現性を高める力",
+            scene: "一度きりの成功を、誰でも続けられる標準へ変えます",
+            deliverable: "改善・品質・運用・標準化"
+          },
+          {
+            id: "supporter",
+            name: "サポーター / 癒やし手",
+            short: "チームを支え、整える",
+            verb: "人と場を整えて力を引き出す",
+            roleCopy: "相手が安心して力を出せる状態をつくる役割です",
+            strength: "困りごとを見つけ、信頼と安定をつくる力",
+            scene: "チームが疲れている時に、土台を整えて再び動けるようにします",
+            deliverable: "伴走・相談・調整・安心感"
+          },
+          {
+            id: "broadcaster",
+            name: "ムードメーカー / 発信者",
+            short: "空気を作り、外に広める",
+            verb: "空気をつくり、価値を外へ伝える",
+            roleCopy: "人の気持ちを動かす言葉と場をつくる役割です",
+            strength: "魅力を翻訳し、共感と参加を生む力",
+            scene: "よいものが埋もれそうな時に、伝わる形へ変えて広げます",
+            deliverable: "発信・広報・共感・参加"
+          }
+        ];
+
+        const typeQuestions = [
+          {
+            axis: "キャラ軸 / 性格・戦い方",
+            scoreTarget: "characters",
+            title: "仕事で困りごとを見つけたら、まずどうする？",
+            help: "いちばん自然に取りそうな行動を選んでください。",
+            options: [
+              { label: "理想のゴールを掲げて、正面から動く", axis: "理想", scores: { knight: 3, paladin: 1 } },
+              { label: "まず動いて、結果を見ながら変える", axis: "行動", scores: { warrior: 3, dragon: 1 } },
+              { label: "自分で手を動かし、現場で試す", axis: "鍛錬", scores: { martial: 3, blacksmith: 1 } },
+              { label: "関係する人の話を聞いて、場を整える", axis: "共感", scores: { priest: 3, guardian: 1 } },
+              { label: "情報を集めて、筋のよい解を探す", axis: "分析", scores: { sage: 3, navigator: 1 } }
+            ]
+          },
+          {
+            axis: "キャラ軸 / 性格・戦い方",
+            scoreTarget: "characters",
+            title: "あなたが一番ワクワクする瞬間は？",
+            help: "仕事の始まり方を思い浮かべて選んでください。",
+            options: [
+              { label: "常識外のアイデアを試せそうな時", axis: "発想", scores: { wizard: 3, alchemist: 2 } },
+              { label: "まだ誰も気づいていない情報を見つけた時", axis: "情報", scores: { thief: 3, ninja: 2 } },
+              { label: "狙いを一点に絞って、精度を上げる時", axis: "集中", scores: { archer: 3, sage: 1 } },
+              { label: "数字と会話で、価値の交換を成立させた時", axis: "交渉", scores: { merchant: 3, king: 1 } },
+              { label: "作ったものを直して、前より良くできた時", axis: "改善", scores: { blacksmith: 3, martial: 1 } }
+            ]
+          },
+          {
+            axis: "キャラ軸 / 性格・戦い方",
+            scoreTarget: "characters",
+            title: "チームで任されると嬉しい役割は？",
+            help: "自分が入ると場がどう変わるかで選んでください。",
+            options: [
+              { label: "違う得意を持つ人たちをつなぐ", axis: "接続", scores: { summoner: 3, bard: 1 } },
+              { label: "前例のない高い目標へ挑む", axis: "挑戦", scores: { dragon: 3, knight: 1 } },
+              { label: "仲間を守りながら、できることを増やす", axis: "育成", scores: { paladin: 3, guardian: 2 } },
+              { label: "固い空気を崩して、別の見方を出す", axis: "柔軟", scores: { jester: 3, wizard: 1 } },
+              { label: "全体の地図を描いて、進む順番を示す", axis: "設計", scores: { navigator: 3, sage: 1 } }
+            ]
+          },
+          {
+            axis: "キャラ軸 / 性格・戦い方",
+            scoreTarget: "characters",
+            title: "成果が出るまで、どんな進め方をする？",
+            help: "結果を出す時の自分に近いものを選んでください。",
+            options: [
+              { label: "表に出ず、先回りして詰まりを消す", axis: "段取り", scores: { ninja: 3, thief: 1 } },
+              { label: "仮説を立てて、小さな実験を繰り返す", axis: "研究", scores: { alchemist: 3, wizard: 1 } },
+              { label: "言葉や表現を変えて、人の気持ちを動かす", axis: "発信", scores: { bard: 3, summoner: 1 } },
+              { label: "最後まで基準を守り、品質を安定させる", axis: "守備", scores: { guardian: 3, paladin: 1 } },
+              { label: "前線に立ち、手数を出して突破する", axis: "突破", scores: { warrior: 3, martial: 1 } }
+            ]
+          },
+          {
+            axis: "キャラ軸 / 性格・戦い方",
+            scoreTarget: "characters",
+            title: "仕事で大切にしたい勝ち方は？",
+            help: "長く続けたい自分の強みをひとつ選んでください。",
+            options: [
+              { label: "一点集中で、ここぞを仕留める", axis: "精密", scores: { archer: 3, ninja: 1 } },
+              { label: "人と価値をつなぎ、信頼を積み上げる", axis: "価値", scores: { merchant: 3, summoner: 1 } },
+              { label: "仲間を守り、次の人を育てる", axis: "守護", scores: { paladin: 3, priest: 1 } },
+              { label: "仕組みを鍛え、誰でも続けられる状態にする", axis: "品質", scores: { blacksmith: 2, guardian: 3 } },
+              { label: "自由に組み替え、面白い突破口をつくる", axis: "自由", scores: { jester: 3, thief: 1 } }
+            ]
+          },
+          {
+            axis: "ロール軸 / 会社での役割",
+            scoreTarget: "roles",
+            title: "会社で一番頼られたいのは？",
+            help: "成果の出し方として、一番しっくりくるものを選んでください。",
+            options: [
+              { label: "まだない案を出して、最初の形にする", axis: "0→1", scores: { idea: 3, producer: 1 } },
+              { label: "情報を整理して、勝ち筋を描く", axis: "戦略", scores: { strategist: 3, idea: 1 } },
+              { label: "人と企画をつないで、動く形にする", axis: "接続", scores: { producer: 3, broadcaster: 1 } },
+              { label: "決めたことをやり切って、結果を出す", axis: "実行", scores: { attacker: 3, craft: 1 } },
+              { label: "品質と仕組みを磨いて、成功を続ける", axis: "改善", scores: { craft: 3, supporter: 1 } },
+              { label: "チームを支えて、安心して動けるようにする", axis: "支援", scores: { supporter: 3, producer: 1 } },
+              { label: "空気を作って、価値を外へ広める", axis: "発信", scores: { broadcaster: 3, idea: 1 } }
+            ]
+          },
+          {
+            axis: "ロール軸 / 会社での役割",
+            scoreTarget: "roles",
+            title: "成果が出たと実感するのはどんな時？",
+            help: "自分の仕事がチームに与えた変化を選んでください。",
+            options: [
+              { label: "白紙だった企画に、試せる一案が生まれた時", axis: "発明", scores: { idea: 3, broadcaster: 1 } },
+              { label: "複雑な状況が整理され、迷いが減った時", axis: "整理", scores: { strategist: 3, craft: 1 } },
+              { label: "得意な人がつながり、企画が前へ進んだ時", axis: "編成", scores: { producer: 3, supporter: 1 } },
+              { label: "目標を達成し、数字や反応に表れた時", axis: "達成", scores: { attacker: 3, broadcaster: 1 } },
+              { label: "前より速く、きれいに、安定して回った時", axis: "精度", scores: { craft: 3, strategist: 1 } },
+              { label: "誰かが安心して、自分の力を出せた時", axis: "安心", scores: { supporter: 3, producer: 1 } },
+              { label: "知ってもらい、共感して参加する人が増えた時", axis: "共感", scores: { broadcaster: 3, idea: 1 } }
+            ]
+          }
+        ];
+
+        const jobCategories = [
+          { label: "A. 営業", options: ["法人営業 / ルート営業", "個人営業 / 反響営業", "インサイドセールス", "営業企画 / 営業推進", "MR / 医療機器営業", "不動産営業"] },
+          { label: "B. 企画・マーケ・管理", options: ["経営企画 / 事業企画", "マーケティング / Webマーケ", "広報 / PR", "人事 / 採用 / 労務", "経理 / 財務 / 会計", "法務 / 知的財産", "総務 / 庶務"] },
+          { label: "C. IT・エンジニア", options: ["フロントエンドエンジニア", "バックエンドエンジニア", "モバイルアプリエンジニア", "インフラ / SRE / クラウドエンジニア", "データサイエンティスト / AIエンジニア", "情報システム / 社内SE / ITサポート", "QA / テスト / 品質保証", "プロジェクトマネージャー / PMO", "ITコンサルタント"] },
+          { label: "D. クリエイティブ", options: ["UI/UXデザイナー", "Webデザイナー / グラフィックデザイナー", "動画編集 / 映像制作 / YouTuber", "Webディレクター / プロデューサー", "ライター / 編集 / コピーライター", "イラストレーター / アニメーター"] },
+          { label: "E. 販売・接客・サービス", options: ["販売スタッフ / 店長 / SV", "美容師 / 美容部員 / ネイリスト", "調理師 / パティシエ / バリスタ", "ホテルスタッフ / ブライダル", "旅行 / ツアコン / 客室乗務員", "ドライバー / 配送"] },
+          { label: "F. 事務・アシスタント", options: ["一般事務 / 営業事務", "秘書 / 受付", "カスタマーサポート / コールセンター", "データ入力 / 事務アシスタント"] },
+          { label: "G. 医療・福祉・教育", options: ["看護師 / 准看護師", "薬剤師 / 臨床検査技師", "介護士 / ケアマネ / 生活相談員", "保育士 / 幼稚園教諭 / 学童", "教師 / 講師 / インストラクター", "カウンセラー / 臨床心理士"] },
+          { label: "H. 建築・不動産・製造・物流", options: ["建築設計 / 施工管理 / 大工", "土木 / 設備 / 電気工事", "製造オペレーター / 品質管理 / 生産管理", "物流管理 / 倉庫管理 / フォークリフト", "整備士 / メカニック"] },
+          { label: "I. 金融・コンサル・専門職", options: ["銀行 / 証券 / 保険営業 / FP", "経営コンサル / 人事コンサル", "弁護士 / 司法書士 / 会計士 / 税理士 / 社労士"] },
+          { label: "J. その他 / 新しい働き方", options: ["起業家 / フリーランス", "農家 / 一次産業", "クリエイターエコノミー / インフルエンサー"] }
+        ];
+
+        const typeState = {
+          index: 0,
+          selected: null,
+          scores: { characters: {}, roles: {} }
+        };
+        let currentTypeResult = null;
+
+        const typeStartState = document.querySelector("#type-start-state");
+        const typeQuestionState = document.querySelector("#type-question-state");
+        const typeResultState = document.querySelector("#type-result-state");
+        const startTypeDiagnosisButton = document.querySelector("#start-type-diagnosis");
+        const nextTypeQuestionButton = document.querySelector("#next-type-question");
+        const restartTypeDiagnosisButton = document.querySelector("#restart-type-diagnosis");
+        const typeStep = document.querySelector("#type-step");
+        const typeQuestionCount = document.querySelector("#type-question-count");
+        const typeQuestionAxis = document.querySelector("#type-question-axis");
+        const typeProgress = document.querySelector("#type-progress");
+        const typeQuestionTitle = document.querySelector("#type-question-title");
+        const typeQuestionHelp = document.querySelector("#type-question-help");
+        const typeChoiceList = document.querySelector("#type-choice-list");
+        const typeResultTitle = document.querySelector("#type-result-title");
+        const typeResultIntro = document.querySelector("#type-result-intro");
+        const typeResultAvatar = document.querySelector("#type-result-avatar");
+        const typeResultVisualLabel = document.querySelector("#type-result-visual-label");
+        const typeCharacterName = document.querySelector("#type-character-name");
+        const typeCharacterCopy = document.querySelector("#type-character-copy");
+        const typeRoleName = document.querySelector("#type-role-name");
+        const typeRoleCopy = document.querySelector("#type-role-copy");
+        const typeResultStory = document.querySelector("#type-result-story");
+        const typeJobSelect = document.querySelector("#type-job-select");
+        const typeJobAdvice = document.querySelector("#type-job-advice");
+        const characterLibraryGrid = document.querySelector("#character-library-grid");
+
+        const showTypeView = (view) => {
+          [typeStartState, typeQuestionState, typeResultState].forEach((item) => {
+            item.hidden = item !== view;
+          });
+        };
+
+        const resetTypeDiagnosis = () => {
+          typeState.index = 0;
+          typeState.selected = null;
+          typeState.scores = { characters: {}, roles: {} };
+          currentTypeResult = null;
+        };
+
+        const addTypeScores = (target, scores) => {
+          Object.entries(scores).forEach(([key, value]) => {
+            target[key] = (target[key] || 0) + value;
+          });
+        };
+
+        const getTopScored = (scores, items) => {
+          const ranking = items.map((item, index) => ({
+            item,
+            score: scores[item.id] || 0,
+            index
+          }));
+          ranking.sort((a, b) => b.score - a.score || a.index - b.index);
+          return ranking[0].item;
+        };
+
+        const renderTypeQuestion = () => {
+          const question = typeQuestions[typeState.index];
+          typeStep.textContent = "QUESTION " + String(typeState.index + 1).padStart(2, "0");
+          typeQuestionCount.textContent = (typeState.index + 1) + " / " + typeQuestions.length;
+          typeQuestionAxis.textContent = question.axis;
+          typeProgress.value = typeState.index + 1;
+          typeProgress.setAttribute("aria-valuenow", String(typeState.index + 1));
+          typeQuestionTitle.textContent = question.title;
+          typeQuestionHelp.textContent = question.help;
+          typeChoiceList.innerHTML = question.options.map((option, index) =>
+            '<button class="type-choice" type="button" data-type-choice-index="' + index + '">' +
+              '<span class="type-choice-key">' + String.fromCharCode(65 + index) + '</span>' +
+              '<span>' + option.label + '</span>' +
+              '<span class="type-choice-axis">' + option.axis + '</span>' +
+            '</button>'
+          ).join("");
+          nextTypeQuestionButton.disabled = true;
+          nextTypeQuestionButton.textContent = typeState.index === typeQuestions.length - 1 ? "診断結果を見る" : "次の質問へ";
+          typeChoiceList.querySelectorAll(".type-choice").forEach((button) => {
+            button.addEventListener("click", () => {
+              typeChoiceList.querySelectorAll(".type-choice").forEach((item) => item.classList.remove("is-selected"));
+              button.classList.add("is-selected");
+              typeState.selected = Number(button.dataset.typeChoiceIndex);
+              nextTypeQuestionButton.disabled = false;
+            });
+          });
+        };
+
+        const renderCharacterLibrary = () => {
+          characterLibraryGrid.innerHTML = characterData.map((character, index) =>
+            '<article class="character-card" style="--accent:' + character.accent + ';--accent-soft:' + character.soft + ';">' +
+              '<div class="character-card-top">' +
+                '<div class="sd-avatar sd-avatar-small" role="img" aria-label="' + character.name + 'のSDキャラ">' + character.icon + '</div>' +
+                '<div>' +
+                  '<span class="character-number">' + String(index + 1).padStart(2, "0") + ' / 20</span>' +
+                  '<h3>' + character.name + '</h3>' +
+                  '<p class="character-catch">' + character.catchphrase + '</p>' +
+                '</div>' +
+              '</div>' +
+              '<p class="character-visual"><strong>SD設定</strong>' + character.visual + '</p>' +
+              '<div class="character-tags">' + character.keywords.map((keyword) => '<span>' + keyword + '</span>').join("") + '</div>' +
+              '<dl class="character-spec">' +
+                '<div><dt>小物</dt><dd>' + character.gear + '</dd></div>' +
+                '<div><dt>ポーズ</dt><dd>' + character.pose + '</dd></div>' +
+              '</dl>' +
+            '</article>'
+          ).join("");
+        };
+
+        const populateJobSelect = () => {
+          jobCategories.forEach((category) => {
+            const group = document.createElement("optgroup");
+            group.label = category.label;
+            category.options.forEach((job) => {
+              const option = document.createElement("option");
+              option.value = job;
+              option.textContent = job;
+              group.appendChild(option);
+            });
+            typeJobSelect.appendChild(group);
+          });
+        };
+
+        const updateTypeJobAdvice = () => {
+          if (!currentTypeResult) return;
+          const job = typeJobSelect.value;
+          if (!job) {
+            typeJobAdvice.textContent = "職種を選ぶと、このタイプの強みをどう見せるか提案します。";
+            return;
+          }
+          const character = currentTypeResult.character;
+          const role = currentTypeResult.role;
+          typeJobAdvice.textContent = job + "では、「" + character.keywords[0] + "」を " + role.deliverable + " として伝えると、あなたらしい強みが見えやすくなります。";
+        };
+
+        const showTypeResult = () => {
+          const character = getTopScored(typeState.scores.characters, characterData);
+          const role = getTopScored(typeState.scores.roles, roleData);
+          currentTypeResult = { character, role };
+          const title = character.name + "の" + role.name;
+          const intro = character.catchphrase + "。" + role.name + "として" + role.verb + "タイプです。" + character.quote + "。";
+          typeStep.textContent = "RESULT";
+          typeResultTitle.textContent = title;
+          typeResultIntro.textContent = intro;
+          typeResultAvatar.textContent = character.icon;
+          typeResultAvatar.style.setProperty("--accent", character.accent);
+          typeResultAvatar.style.setProperty("--accent-soft", character.soft);
+          typeResultAvatar.setAttribute("aria-label", character.name + "のSDキャラ");
+          typeResultVisualLabel.textContent = character.resultLabel;
+          typeCharacterName.textContent = character.name;
+          typeCharacterCopy.textContent = character.quote + "。" + character.growth + "。";
+          typeRoleName.textContent = role.name;
+          typeRoleCopy.textContent = role.roleCopy + "。" + role.strength + "。";
+          typeResultStory.textContent = "あなたの武器は「" + character.keywords.join(" / ") + "」。" + role.name + "としては、" + role.scene + "。" + character.best + "。";
+          typeJobSelect.value = "";
+          updateTypeJobAdvice();
+          trackEvent("character_diagnosis_complete", {
+            character_id: character.id,
+            role_id: role.id
+          });
+          showTypeView(typeResultState);
+        };
+
+        startTypeDiagnosisButton.addEventListener("click", () => {
+          resetTypeDiagnosis();
+          renderTypeQuestion();
+          trackEvent("character_diagnosis_start");
+          showTypeView(typeQuestionState);
+        });
+
+        nextTypeQuestionButton.addEventListener("click", () => {
+          if (typeState.selected === null) return;
+          const question = typeQuestions[typeState.index];
+          const selected = question.options[typeState.selected];
+          addTypeScores(typeState.scores[question.scoreTarget], selected.scores);
+          if (typeState.index === typeQuestions.length - 1) {
+            showTypeResult();
+          } else {
+            typeState.index += 1;
+            typeState.selected = null;
+            renderTypeQuestion();
+          }
+        });
+
+        restartTypeDiagnosisButton.addEventListener("click", () => {
+          resetTypeDiagnosis();
+          typeStep.textContent = "START";
+          showTypeView(typeStartState);
+        });
+
+        typeJobSelect.addEventListener("change", () => {
+          updateTypeJobAdvice();
+          if (typeJobSelect.value) {
+            trackEvent("character_job_select", { job_selected: true });
+          }
+        });
+        populateJobSelect();
+        renderCharacterLibrary();
+
+        const gameQuestions = [
+          {
+            progress: "まずは今の仕事から",
+            title: "いまの仕事にいちばん近いものは？",
+            options: [
+              { label: "未経験・これから探す", scores: { change: 2, confidence: 1 } },
+              { label: "営業・事務など", scores: { change: 1, market: 1 } },
+              { label: "IT・Web・クリエイティブ", scores: { skill: 2, market: 1 } },
+              { label: "管理職・専門職", scores: { confidence: 2, market: 1 } }
+            ]
+          },
+          {
+            progress: "次に変えたいこと",
+            title: "次の仕事で、まず変えたいのは？",
+            options: [
+              { label: "年収を上げたい", scores: { change: 2 } },
+              { label: "専門スキルを伸ばしたい", scores: { skill: 2 } },
+              { label: "働く場所や時間を変えたい", scores: { flexibility: 2 } },
+              { label: "長く働ける環境がほしい", scores: { confidence: 2 } }
+            ]
+          },
+          {
+            progress: "強みの見つけ方",
+            title: "周りから評価されやすいのは？",
+            options: [
+              { label: "問題を整理して解決する力", scores: { skill: 2 } },
+              { label: "人に伝え、動かす力", scores: { confidence: 2 } },
+              { label: "チームをまとめる力", scores: { confidence: 1, market: 1 } },
+              { label: "数字や成果で説明できる実績", scores: { market: 2 } }
+            ]
+          },
+          {
+            progress: "動き出すタイミング",
+            title: "キャリアを変えるなら、いつ動きたい？",
+            options: [
+              { label: "できればすぐに情報収集したい", scores: { change: 2 } },
+              { label: "3〜6か月かけて準備したい", scores: { change: 1, market: 1 } },
+              { label: "まずはスキルを整えたい", scores: { skill: 1, market: 1 } },
+              { label: "今は決めず、選択肢だけ知りたい", scores: { confidence: 1 } }
+            ]
+          },
+          {
+            progress: "最後に優先順位",
+            title: "年収UPと一緒に、何を守りたい？",
+            options: [
+              { label: "収入の伸びしろ", scores: { change: 2 } },
+              { label: "専門性と将来性", scores: { skill: 2 } },
+              { label: "自由な時間と働き方", scores: { flexibility: 2 } },
+              { label: "安定感と無理のないペース", scores: { confidence: 2 } }
+            ]
+          }
+        ];
+
+        const gameState = {
+          index: 0,
+          selected: null,
+          scores: { change: 0, skill: 0, flexibility: 0, confidence: 0, market: 0 }
+        };
+        const gameStartState = document.querySelector("#game-start-state");
+        const gameQuestionState = document.querySelector("#game-question-state");
+        const gameResultState = document.querySelector("#game-result-state");
+        const startGameButton = document.querySelector("#start-game");
+        const nextQuestionButton = document.querySelector("#next-question");
+        const restartGameButton = document.querySelector("#restart-game");
+        const gameStep = document.querySelector("#game-step");
+        const gameQuestionCount = document.querySelector("#game-question-count");
+        const gameProgressCopy = document.querySelector("#game-progress-copy");
+        const gameProgress = document.querySelector("#game-progress");
+        const questionTitle = document.querySelector("#question-title");
+        const choiceList = document.querySelector("#choice-list");
+        const resultTitle = document.querySelector("#result-title");
+        const resultCopy = document.querySelector("#result-copy");
+        const resultAxis = document.querySelector("#result-axis");
+        const resultNext = document.querySelector("#result-next");
+        const resultRecommendation = document.querySelector("#result-recommendation");
+        const resultPrograms = document.querySelector("#result-programs");
+
+        const showGameView = (view) => {
+          [gameStartState, gameQuestionState, gameResultState].forEach((item) => {
+            item.hidden = item !== view;
+          });
+        };
+
+        const resetGame = () => {
+          gameState.index = 0;
+          gameState.selected = null;
+          gameState.scores = { change: 0, skill: 0, flexibility: 0, confidence: 0, market: 0 };
+        };
+
+        const renderQuestion = () => {
+          const question = gameQuestions[gameState.index];
+          gameStep.textContent = `QUESTION ${String(gameState.index + 1).padStart(2, "0")}`;
+          gameQuestionCount.textContent = `${gameState.index + 1} / ${gameQuestions.length}`;
+          gameProgressCopy.textContent = question.progress;
+          gameProgress.value = gameState.index + 1;
+          gameProgress.setAttribute("aria-valuenow", String(gameState.index + 1));
+          questionTitle.textContent = question.title;
+          choiceList.innerHTML = question.options.map((option, index) => `
+            <button class="answer-option" type="button" data-choice-index="${index}">
+              <span class="choice-key">${String.fromCharCode(65 + index)}</span>
+              <span>${option.label}</span>
+              <span class="choice-arrow" aria-hidden="true">›</span>
+            </button>
+          `).join("");
+          nextQuestionButton.disabled = true;
+          nextQuestionButton.innerHTML = gameState.index === gameQuestions.length - 1
+            ? "診断結果を見る <span aria-hidden=\"true\">→</span>"
+            : "次の質問へ <span aria-hidden=\"true\">→</span>";
+
+          choiceList.querySelectorAll(".answer-option").forEach((button) => {
+            button.addEventListener("click", () => {
+              choiceList.querySelectorAll(".answer-option").forEach((item) => item.classList.remove("is-selected"));
+              button.classList.add("is-selected");
+              gameState.selected = Number(button.dataset.choiceIndex);
+              nextQuestionButton.disabled = false;
+            });
+          });
+        };
+
+        const showResult = () => {
+          const ranked = [
+            {
+              key: "skill",
+              title: "専門性ブースト型",
+              axis: "専門スキルの深掘り",
+              next: "専門求人を比較する",
+              copy: "今ある経験に専門性を足すことで、評価される選択肢が広がりそうです。",
+              recommendation: "まずは、いまの経験が活かせるIT・Web・専門職の求人を見比べてみましょう。",
+              filter: "it"
+            },
+            {
+              key: "change",
+              title: "市場比較型",
+              axis: "経験の見せ方",
+              next: "求人・年収相場を比べる",
+              copy: "今の経験を別の環境で評価してもらうことで、次の選択肢が広がりそうです。",
+              recommendation: "職務経歴書を整えて、同じ経験がどのくらい評価されるかを比べてみましょう。",
+              filter: "beginner"
+            },
+            {
+              key: "flexibility",
+              title: "働き方再設計型",
+              axis: "続けやすい働き方",
+              next: "条件を絞って相談する",
+              copy: "年収だけでなく、時間・場所・案件の選び方を変えることが成果につながりそうです。",
+              recommendation: "フリーランスや派遣など、働き方の選択肢も含めて条件を整理してみましょう。",
+              filter: "freelance"
+            },
+            {
+              key: "confidence",
+              title: "経験活用型",
+              axis: "実績の言語化",
+              next: "キャリア相談を受ける",
+              copy: "これまでの実績を言葉にして伝えられると、より条件の合う求人に出会えそうです。",
+              recommendation: "経験を整理してくれる転職サービスで、求人と自分の相性を確認してみましょう。",
+              filter: "highclass"
+            }
+          ].sort((a, b) => (gameState.scores[b.key] || 0) - (gameState.scores[a.key] || 0));
+          const result = ranked[0];
+          gameStep.textContent = "RESULT";
+          resultTitle.textContent = result.title;
+          resultCopy.textContent = result.copy;
+          resultAxis.textContent = result.axis;
+          resultNext.textContent = result.next;
+          resultRecommendation.textContent = result.recommendation;
+          resultPrograms.dataset.filterTarget = result.filter;
+          trackEvent("income_diagnosis_complete", { result_key: result.key });
+          showGameView(gameResultState);
+        };
+
+        startGameButton.addEventListener("click", () => {
+          resetGame();
+          renderQuestion();
+          trackEvent("income_diagnosis_start");
+          showGameView(gameQuestionState);
+        });
+
+        nextQuestionButton.addEventListener("click", () => {
+          if (gameState.selected === null) return;
+          const selected = gameQuestions[gameState.index].options[gameState.selected];
+          Object.entries(selected.scores).forEach(([key, value]) => {
+            gameState.scores[key] += value;
+          });
+          if (gameState.index === gameQuestions.length - 1) {
+            showResult();
+          } else {
+            gameState.index += 1;
+            gameState.selected = null;
+            renderQuestion();
+          }
+        });
+
+        restartGameButton.addEventListener("click", () => {
+          resetGame();
+          showGameView(gameStartState);
+          gameStep.textContent = "START";
+        });
+
+        resultPrograms.addEventListener("click", () => {
+          const targetFilter = resultPrograms.dataset.filterTarget;
+          if (targetFilter) applyFilter(targetFilter);
+        });
+      })();
+    </script>
+  </body>
+</html>
