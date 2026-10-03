@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="10問で転職活動の準備度をセルフチェック。年収1,200万円の求人が自分に合うか考えるきっかけに。">
+  <title>年収1,200万円の求人、あなたにも合う？｜10問キャリアチェック</title>
+  <style>
+    :root{--ink:#182331;--muted:#647386;--blue:#2457e6;--blue2:#153fb4;--mint:#dff7ef;--paper:#f5f8fc;--line:#e3e9f1;--white:#fff}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.65}
+    .top{padding:15px 22px;background:#fff;border-bottom:1px solid var(--line);font-size:14px;font-weight:750;letter-spacing:.03em}
+    .top span{color:var(--blue)}
+    main{width:min(100% - 32px,760px);margin:34px auto 64px}
+    .hero{padding:32px 30px 26px;border-radius:24px;background:linear-gradient(130deg,#132e67,#2457e6 75%,#4a84fb);color:white;box-shadow:0 14px 35px #183b8026}
+    .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#c8dcff}
+    h1{font-size:clamp(27px,5vw,42px);line-height:1.25;margin:10px 0 12px;letter-spacing:-.04em}
+    .hero p{margin:0;color:#e4edff;font-size:15px;max-width:590px}
+    .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+    .pill{font-size:12px;border:1px solid #ffffff66;border-radius:99px;padding:5px 11px;color:#fff}
+    .panel{background:var(--white);border:1px solid var(--line);border-radius:20px;margin-top:20px;padding:24px;box-shadow:0 8px 26px #18233108}
+    .progressrow{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;font-weight:650}
+    .bar{height:8px;background:#edf1f7;border-radius:99px;margin:10px 0 23px;overflow:hidden}
+    .bar>div{height:100%;width:10%;background:linear-gradient(90deg,#315de8,#71a5ff);border-radius:inherit;transition:width .25s}
+    .qtitle{font-size:21px;line-height:1.45;margin:0 0 16px}
+    .options{display:grid;gap:10px}
+    .option{position:relative;display:flex;gap:11px;align-items:center;border:1px solid var(--line);border-radius:13px;padding:13px 15px;cursor:pointer;transition:.15s;background:#fff}
+    .option:hover{border-color:#8ba8f8;background:#f8faff}
+    .option:has(input:checked){border-color:var(--blue);background:#f1f5ff;box-shadow:0 0 0 1px var(--blue) inset}
+    .option input{accent-color:var(--blue);width:17px;height:17px;flex:none}
+    .option span{font-size:15px}
+    .actions{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+    button{font:inherit;border:0;border-radius:12px;padding:12px 20px;cursor:pointer;font-weight:750}
+    button:disabled{opacity:.4;cursor:not-allowed}
+    .primary{background:var(--blue);color:white;min-width:145px}
+    .primary:hover:not(:disabled){background:var(--blue2)}
+    .secondary{background:#edf1f7;color:var(--ink)}
+    .hint{font-size:12px;color:var(--muted);margin:14px 0 0}
+    .privacy{font-size:12px;color:var(--muted);text-align:center;margin:16px 0}
+    .result{display:none}
+    .result.show{display:block}
+    .resultLabel{font-size:13px;color:var(--blue);font-weight:800;letter-spacing:.04em}
+    .result h2{font-size:clamp(24px,4vw,32px);line-height:1.35;margin:8px 0}
+    .scoreline{display:flex;gap:14px;align-items:center;margin:20px 0}
+    .score{font-size:42px;font-weight:850;color:var(--blue);line-height:1}
+    .score small{font-size:15px;color:var(--muted);font-weight:650}
+    .scorebar{height:10px;flex:1;background:#edf1f7;border-radius:99px;overflow:hidden}
+    .scorebar div{height:100%;background:linear-gradient(90deg,#315de8,#54c9a3)}
+    .callout{padding:17px;border-radius:14px;background:#f0f5ff;margin:18px 0}
+    .callout strong{display:block;margin-bottom:4px}
+    .nextsteps{padding-left:1.2em}
+    .nextsteps li{margin:7px 0}
+    .disclaimer{border-top:1px solid var(--line);padding-top:15px;margin-top:20px;color:var(--muted);font-size:12px}
+    .restart{margin-top:18px}
+    .foot{color:var(--muted);font-size:11px;text-align:center;margin-top:18px}
+    @media(max-width:520px){main{width:min(100% - 20px,760px);margin:16px auto 40px}.hero{padding:25px 21px 22px;border-radius:19px}.panel{padding:18px 16px;border-radius:17px}.qtitle{font-size:19px}.option{padding:12px}.actions button{padding:11px 13px}.primary{min-width:120px}}
+  </style>
+</head>
+<body>
+  <header class="top"><span>CAREER CHECK</span>　転職の可能性を考える10問</header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">10 QUESTIONS · ABOUT 2 MIN</div>
+      <h1>年収1,200万円の求人、<br>あなたにも合う？</h1>
+      <p>広告で見かけた「想定年収1,200万円」。その金額だけで判断せず、経験や希望に合う求人を探す準備ができているか、10問で整理してみましょう。</p>
+      <div class="pills"><span class="pill">無料セルフチェック</span><span class="pill">登録不要</span><span class="pill">回答は送信されません</span></div>
+    </section>
+    <section id="quiz" class="panel" aria-live="polite">
+      <div class="progressrow"><span id="stepText">質問 1 / 10</span><span id="percent">10%</span></div>
+      <div class="bar"><div id="progress"></div></div>
+      <h2 class="qtitle" id="question"></h2>
+      <div class="options" id="options"></div>
+      <div class="actions">
+        <button class="secondary" id="back" type="button">戻る</button>
+        <button class="primary" id="next" type="button" disabled>次へ</button>
+      </div>
+      <p class="hint">正解・不正解はありません。現在の状況に近いものを選んでください。</p>
+    </section>
+    <section id="result" class="panel result" aria-live="polite">
+      <div class="resultLabel">YOUR CAREER CHECK</div>
+      <h2 id="resultTitle"></h2>
+      <p id="resultIntro"></p>
+      <div class="scoreline"><div class="score"><span id="scoreNum"></span><small> / 100</small></div><div class="scorebar"><div id="scoreBar"></div></div></div>
+      <div class="callout"><strong>次に確認したいこと</strong><span id="resultCallout"></span></div>
+      <h3>転職活動でやってみること</h3>
+      <ul class="nextsteps" id="steps"></ul>
+      <p class="disclaimer">この結果は回答をもとにした簡易的な準備度チェックです。年収や内定を予測・保証するものではありません。「想定年収」は求人や転職サービスごとに条件が異なります。実際の提示年収は、経験・スキル・勤務地・選考結果などによって変わります。回答内容はこのページ内でのみ使われ、送信・保存されません。</p>
+      <button class="secondary restart" id="restart" type="button">もう一度診断する</button>
+    </section>
+    <p class="foot">このページは転職を検討するための情報提供を目的としています。</p>
+  </main>
+  <script>
+    const questions = [
+      {t:"現在の年収に近いものを選んでください",o:[["400万円未満",1],["400万〜599万円",2],["600万〜799万円",3],["800万〜999万円",4],["1,000万円以上",5]]},
+      {t:"現在の職種に近いものは？",o:[["営業・事業開発",3],["IT・エンジニア・データ",4],["企画・マーケティング・コンサル",4],["管理部門・人事・経理・法務",3],["その他・まだ決めていない",2]]},
+      {t:"現在の業界で働いた経験はどのくらい？",o:[["1年未満",1],["1〜3年",2],["4〜7年",3],["8年以上",4]]},
+      {t:"仕事で特に強みとしている専門性はありますか？",o:[["具体的に説明できる専門分野がある",4],["いくつかあるが整理中",3],["これから見つけたい",1]]},
+      {t:"数字や成果で説明できる実績はありますか？",o:[["具体的な数値や事例を説明できる",4],["事例はあるが数値化していない",3],["まだ整理できていない",1]]},
+      {t:"チームやプロジェクトを率いた経験は？",o:[["複数人のチーム・事業を継続して率いた",4],["小規模なチームや案件を率いた",3],["今は個人の担当業務が中心",2],["経験はない",1]]},
+      {t:"これまでの転職・昇進で、役割や年収が上がった経験は？",o:[["複数回ある",4],["一度ある",3],["まだない／初めての転職",2]]},
+      {t:"希望する仕事や役割は具体的になっていますか？",o:[["職種・役割・条件を説明できる",4],["方向性はあるが条件はこれから",3],["まず情報収集したい",2]]},
+      {t:"勤務地や働き方の希望は？",o:[["複数の勤務地・働き方を検討できる",3],["希望条件が決まっている",2],["条件を整理しているところ",2]]},
+      {t:"転職を考える時期は？",o:[["良い機会があればすぐに",4],["3〜6か月以内",3],["半年以降・まず相場を知りたい",2],["まだ決めていない",1]]}
+    ];
+    let current=0; const answers=Array(questions.length).fill(null);
+    const q=document.getElementById("question"), opts=document.getElementById("options"), back=document.getElementById("back"), next=document.getElementById("next");
+    function render(){
+      const item=questions[current]; q.textContent=item.t; opts.innerHTML="";
+      item.o.forEach(([label,value],i)=>{
+        const id="q"+current+"o"+i; const labelEl=document.createElement("label"); labelEl.className="option"; labelEl.htmlFor=id;
+        const input=document.createElement("input"); input.type="radio"; input.name="answer"; input.id=id; input.value=value; input.checked=answers[current]===value && answers[current+"i"]===i;
+        input.addEventListener("change",()=>{answers[current]=value;answers[current+"i"]=i;next.disabled=false});
+        const span=document.createElement("span");span.textContent=label;labelEl.append(input,span);opts.append(labelEl);
+      });
+      document.getElementById("stepText").textContent="質問 "+(current+1)+" / "+questions.length;
+      document.getElementById("percent").textContent=Math.round((current+1)/questions.length*100)+"%";
+      document.getElementById("progress").style.width=((current+1)/questions.length*100)+"%";
+      back.disabled=current===0; next.disabled=answers[current]===null;
+      next.textContent=current===questions.length-1?"結果を見る":"次へ";
+    }
+    back.addEventListener("click",()=>{if(current>0){current--;render()}});
+    next.addEventListener("click",()=>{if(answers[current]===null)return;if(current<questions.length-1){current++;render()}else showResult()});
+    function showResult(){
+      const max=questions.reduce((sum,item)=>sum+Math.max(...item.o.map(x=>x[1])),0);
+      const raw=questions.reduce((sum,_,i)=>sum+(answers[i]||0),0);
+      const score=Math.round(raw/max*100);
+      let title,intro,callout,actions;
+      if(score>=78){
+        title="経験や希望を整理して、求人を比較できる段階です";
+        intro="これまでの実績や希望条件を求人票と照らし合わせると、応募先を選びやすくなりそうです。";
+        callout="年収1,200万円の求人があるかだけでなく、必須条件・役割・賞与を含む年収内訳を確認しましょう。";
+        actions=["成果を数字と具体例で3つ書き出す","希望年収と譲れる条件を分けて整理する","複数の求人票で必須条件と提示年収を比較する"];
+      } else if(score>=52){
+        title="強みを整理すると、応募先を選びやすくなります";
+        intro="経験の中にアピールできる材料がありそうです。実績や希望条件を言葉にしてから求人を比べてみましょう。";
+        callout="自分の経験がどの求人条件に結びつくか、担当業務・成果・得意分野を対応づけてみましょう。";
+        actions=["直近の仕事で工夫したことと成果を書く","希望職種と年収の優先順位を決める","求人の必須条件と歓迎条件を分けて読む"];
+      } else {
+        title="まずは経験と希望条件の棚卸しから始めましょう";
+        intro="すぐに応募を決めなくても大丈夫です。仕事内容や市場の求人を見ながら、自分に合う方向を探せます。";
+        callout="年収の数字だけで判断せず、必要な経験・役割・働き方が自分の希望と合うかを確認しましょう。";
+        actions=["これまで担当した仕事を時系列で書き出す","興味のある職種の求人をいくつか読む","転職で変えたい条件を3つまで決める"];
+      }
+      document.getElementById("scoreNum").textContent=score;
+      document.getElementById("scoreBar").style.width=score+"%";
+      document.getElementById("resultTitle").textContent=title;
+      document.getElementById("resultIntro").textContent=intro;
+      document.getElementById("resultCallout").textContent=callout;
+      document.getElementById("steps").innerHTML="";
+      actions.forEach(text=>{const li=document.createElement("li");li.textContent=text;document.getElementById("steps").append(li)});
+      document.getElementById("quiz").style.display="none";document.getElementById("result").classList.add("show");
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+    document.getElementById("restart").addEventListener("click",()=>{current=0;answers.fill(null);document.getElementById("result").classList.remove("show");document.getElementById("quiz").style.display="block";render();window.scrollTo({top:0,behavior:"smooth"})});
+    render();
+  </script>
+</body>
+</html>
