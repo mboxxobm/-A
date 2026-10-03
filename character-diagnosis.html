@@ -179,6 +179,12 @@
       const occupation=occupations[answers[questions.length-1]];
       const character=occupation.character?occupation:{character:role.character,image:role.image};
       const image=document.getElementById("characterImage");
+      image.dataset.fallback="";
+      image.onerror=()=>{
+        if(image.dataset.fallback)return;
+        image.dataset.fallback="used";
+        image.src=`https://raw.githubusercontent.com/mboxxobm/-A/main/${character.image}`;
+      };
       image.src=character.image;image.alt=character.character+"のキャラクターイラスト";
       document.getElementById("resultTitle").textContent=`${character.character}の${role.name}`;
       document.getElementById("occupationLabel").textContent=occupation.character?`職種領域から選定：${occupation.name}`:"職種未定のため、診断ロールに近いキャラ例を表示";
