@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="MONEYSITEのキャラクター画像・設定・プロンプトを自分用に閲覧する静的ライブラリ"
+    />
+    <title>MONEYSITE CHARACTER ARCHIVE / Personal Library</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #06111f;
+        --bg-soft: #0a1a2d;
+        --panel: rgba(11, 31, 56, 0.88);
+        --panel-strong: #0c2038;
+        --line: rgba(91, 213, 245, 0.23);
+        --line-strong: rgba(91, 213, 245, 0.55);
+        --text: #edf8ff;
+        --muted: #8eafc3;
+        --cyan: #5be4ff;
+        --lime: #b9f55c;
+        --gold: #ffd16a;
+        --pink: #ff91d9;
+        --purple: #bb9bff;
+        --shadow: 0 22px 70px rgba(0, 0, 0, 0.32);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-width: 320px;
+        margin: 0;
+        background:
+          radial-gradient(circle at 10% 0%, rgba(42, 116, 159, 0.18), transparent 34rem),
+          radial-gradient(circle at 100% 24%, rgba(87, 76, 180, 0.15), transparent 32rem),
+          var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+        line-height: 1.65;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .shell {
+        width: min(1440px, calc(100% - 2.5rem));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid rgba(91, 228, 255, 0.18);
+        background: rgba(6, 17, 31, 0.87);
+        backdrop-filter: blur(16px);
+      }
+
+      .topbar-inner {
+        display: flex;
+        min-height: 68px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text);
+        font-size: 0.9rem;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid var(--cyan);
+        color: var(--cyan);
+        font-size: 0.78rem;
+        box-shadow: 0 0 18px rgba(91, 228, 255, 0.25);
+      }
+
+      .top-links {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .top-links a,
+      .scope-badge {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.4rem 0.75rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .top-links a:hover,
+      .top-links a:focus-visible {
+        border-color: var(--cyan);
+        color: var(--cyan);
+      }
+
+      .scope-badge {
+        border-color: rgba(185, 245, 92, 0.45);
+        color: var(--lime);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        margin: 2.25rem 0 1rem;
+        padding: clamp(2rem, 5vw, 4.8rem);
+        border: 1px solid var(--line);
+        background:
+          linear-gradient(135deg, rgba(9, 33, 59, 0.96), rgba(10, 30, 52, 0.86)),
+          repeating-linear-gradient(90deg, transparent 0 47px, rgba(91, 228, 255, 0.07) 48px 49px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero::after {
+        position: absolute;
+        right: -70px;
+        bottom: -135px;
+        width: 390px;
+        height: 390px;
+        border: 1px solid rgba(91, 228, 255, 0.33);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 25px rgba(91, 228, 255, 0.035),
+          0 0 0 52px rgba(91, 228, 255, 0.025),
+          0 0 0 100px rgba(91, 228, 255, 0.018);
+        content: "";
+        pointer-events: none;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--cyan);
+        font-size: 0.74rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+      }
+
+      .eyebrow::before {
+        width: 2rem;
+        height: 2px;
+        background: var(--lime);
+        content: "";
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 850px;
+        margin-bottom: 1rem;
+        font-size: clamp(2rem, 5vw, 4.4rem);
+        line-height: 1.05;
+        letter-spacing: -0.055em;
+      }
+
+      .hero p {
+        max-width: 720px;
+        margin-bottom: 0;
+        color: #b9d3e1;
+        font-size: 1rem;
+      }
+
+      .hero-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        margin-top: 1.4rem;
+      }
+
+      .hero-line span {
+        border: 1px solid rgba(91, 228, 255, 0.32);
+        padding: 0.35rem 0.65rem;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+
+      .control-panel {
+        position: sticky;
+        top: 68px;
+        z-index: 8;
+        display: grid;
+        gap: 0.9rem;
+        margin: 1rem 0 2.2rem;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        background: rgba(10, 26, 45, 0.92);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+        backdrop-filter: blur(14px);
+      }
+
+      .search-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .search-label {
+        color: var(--cyan);
+        font-size: 0.76rem;
+        font-weight: 850;
+        letter-spacing: 0.1em;
+        white-space: nowrap;
+      }
+
+      .search {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        outline: 0;
+        background: rgba(3, 14, 27, 0.72);
+        color: var(--text);
+        padding: 0.55rem 0.8rem;
+      }
+
+      .search:focus {
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 3px rgba(91, 228, 255, 0.13);
+      }
+
+      .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .filter {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--muted);
+        padding: 0.42rem 0.72rem;
+        font-size: 0.77rem;
+        font-weight: 750;
+      }
+
+      .filter:hover,
+      .filter:focus-visible,
+      .filter.is-active {
+        border-color: var(--cyan);
+        background: rgba(91, 228, 255, 0.12);
+        color: var(--text);
+      }
+
+      .filter[data-filter="documents"].is-active {
+        border-color: var(--gold);
+        background: rgba(255, 209, 106, 0.12);
+      }
+
+      .summary-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .summary-row strong {
+        color: var(--lime);
+        font-size: 1rem;
+      }
+
+      .section {
+        margin: 3.3rem 0;
+        scroll-margin-top: 160px;
+      }
+
+      .section-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-heading h2 {
+        margin-bottom: 0.15rem;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        letter-spacing: -0.035em;
+      }
+
+      .section-heading p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      .section-kicker {
+        color: var(--cyan);
+        font-size: 0.7rem;
+        font-weight: 900;
+        letter-spacing: 0.14em;
+      }
+
+      .entry-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+        gap: 0.85rem;
+      }
+
+      .entry {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: linear-gradient(160deg, rgba(17, 44, 70, 0.88), rgba(7, 20, 35, 0.96));
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      }
+
+      .entry:hover {
+        border-color: var(--line-strong);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.26);
+        transform: translateY(-3px);
+      }
+
+      .entry-media {
+        position: relative;
+        display: grid;
+        min-height: 210px;
+        place-items: center;
+        overflow: hidden;
+        background:
+          linear-gradient(135deg, rgba(91, 228, 255, 0.08), transparent),
+          #071522;
+      }
+
+      .entry-media img {
+        display: block;
+        width: 100%;
+        height: 210px;
+        object-fit: contain;
+        padding: 0.6rem;
+      }
+
+      .entry[data-shape="portrait"] .entry-media img,
+      .entry[data-shape="fullbody"] .entry-media img {
+        height: 285px;
+      }
+
+      .entry[data-shape="sheet"] .entry-media img {
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .entry[data-kind="doc"] .entry-media {
+        min-height: 125px;
+        place-items: end start;
+        padding: 1rem;
+        background:
+          linear-gradient(135deg, rgba(255, 209, 106, 0.2), transparent 58%),
+          #111e2d;
+      }
+
+      .doc-icon {
+        display: grid;
+        width: 54px;
+        height: 64px;
+        place-items: center;
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        font-size: 0.7rem;
+        font-weight: 900;
+        letter-spacing: 0.09em;
+      }
+
+      .entry-badge {
+        position: absolute;
+        top: 0.65rem;
+        left: 0.65rem;
+        border: 1px solid rgba(91, 228, 255, 0.5);
+        background: rgba(5, 19, 34, 0.8);
+        color: var(--cyan);
+        padding: 0.18rem 0.42rem;
+        font-size: 0.67rem;
+        font-weight: 850;
+      }
+
+      .entry-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 0.3rem;
+        padding: 0.75rem 0.8rem 0.9rem;
+      }
+
+      .entry-title {
+        margin: 0;
+        font-size: 0.92rem;
+        line-height: 1.35;
+      }
+
+      .entry-meta {
+        min-height: 2.5em;
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.74rem;
+        line-height: 1.5;
+      }
+
+      .entry-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-top: auto;
+        padding-top: 0.55rem;
+        border-top: 1px solid rgba(91, 228, 255, 0.13);
+        color: var(--cyan);
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .entry-link:hover,
+      .entry-link:focus-visible {
+        color: var(--lime);
+      }
+
+      .empty {
+        display: none;
+        padding: 2.5rem 1rem;
+        border: 1px dashed var(--line-strong);
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .empty.is-visible {
+        display: block;
+      }
+
+      .notes {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.9rem;
+        margin: 3rem 0 4rem;
+      }
+
+      .note {
+        border: 1px solid var(--line);
+        padding: 1.1rem;
+        background: rgba(11, 31, 56, 0.68);
+      }
+
+      .note strong {
+        display: block;
+        margin-bottom: 0.3rem;
+        color: var(--lime);
+        font-size: 0.83rem;
+      }
+
+      .note p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 1.5rem 0 2.5rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+        text-align: center;
+      }
+
+      @media (max-width: 720px) {
+        .shell {
+          width: min(100% - 1.25rem, 1440px);
+        }
+
+        .topbar-inner {
+          min-height: 58px;
+        }
+
+        .brand {
+          font-size: 0.74rem;
+        }
+
+        .top-links a {
+          display: none;
+        }
+
+        .hero {
+          margin-top: 1.25rem;
+          padding: 2rem 1.25rem 2.4rem;
+        }
+
+        .control-panel {
+          top: 58px;
+          margin-bottom: 1.5rem;
+        }
+
+        .search-row {
+          align-items: stretch;
+          flex-direction: column;
+          gap: 0.35rem;
+        }
+
+        .section-heading {
+          align-items: start;
+          flex-direction: column;
+          gap: 0.2rem;
+        }
+
+        .entry-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.6rem;
+        }
+
+        .entry-media,
+        .entry-media img {
+          min-height: 170px;
+          height: 170px;
+        }
+
+        .entry[data-shape="portrait"] .entry-media img,
+        .entry[data-shape="fullbody"] .entry-media img {
+          height: 220px;
+        }
+
+        .entry-body {
+          padding: 0.65rem;
+        }
+
+        .entry-title {
+          font-size: 0.8rem;
+        }
+
+        .entry-meta {
+          font-size: 0.68rem;
+        }
+
+        .notes {
+          grid-template-columns: 1fr;
+          margin-top: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="shell topbar-inner">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">M/A</span>
+          <span>MONEYSITE / CHARACTER ARCHIVE</span>
+        </a>
+        <div class="top-links">
+          <span class="scope-badge">PUBLIC-SAFE BACKUP</span>
+          <a href="index.html">サイトトップ ↗</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="eyebrow">PERSONAL VIEWER / STATIC HTML</div>
+        <h1 id="page-title">キャラクターと設定を、<br />ひとつの画面で見る。</h1>
+        <p>
+          全身設定、4カット、SDキャラ、顔カード、顔クロップ、設定資料をカテゴリ別に整理した個人閲覧用の一覧です。画像をクリックすると原寸ファイルを開けます。
+        </p>
+        <div class="hero-line" aria-label="収録内容">
+          <span>20 ROLE ASSETS</span>
+          <span>MALE / FEMALE</span>
+          <span>FULLBODY / 4-CUT</span>
+          <span>PROMPTS &amp; SETTINGS</span>
+        </div>
+      </section>
+
+      <section class="control-panel" aria-label="ライブラリの検索と絞り込み">
+        <div class="search-row">
+          <label class="search-label" for="search">SEARCH //</label>
+          <input
+            class="search"
+            id="search"
+            type="search"
+            placeholder="騎士、僧侶、女性、Lab Mix、prompt…"
+            autocomplete="off"
+          />
+        </div>
+        <div class="filter-row" role="group" aria-label="カテゴリ">
+          <button class="filter is-active" data-filter="all" type="button">すべて</button>
+          <button class="filter" data-filter="fullbody" type="button">全身設定</button>
+          <button class="filter" data-filter="4cut" type="button">4カット</button>
+          <button class="filter" data-filter="chibi" type="button">SD / 20職能</button>
+          <button class="filter" data-filter="faces" type="button">顔カード・クロップ</button>
+          <button class="filter" data-filter="sheets" type="button">一覧シート</button>
+          <button class="filter" data-filter="documents" type="button">設定・資料</button>
+        </div>
+        <div class="summary-row">
+          <span>表示中：<strong id="result-count">0</strong>件</span>
+          <span id="result-hint">画像と資料をまとめて閲覧できます</span>
+        </div>
+      </section>
+
+      <section class="section" id="library" aria-labelledby="library-title">
+        <div class="section-heading">
+          <div>
+            <div class="section-kicker">ARCHIVE INDEX</div>
+            <h2 id="library-title">バックアップ一覧</h2>
+          </div>
+          <p>検索結果に応じてカードが切り替わります。</p>
+        </div>
+        <div class="entry-grid" id="entry-grid"></div>
+        <div class="empty" id="empty-state">一致するファイルがありません。別のキーワードで検索してください。</div>
+      </section>
+
+      <section class="notes" aria-label="閲覧メモ">
+        <article class="note">
+          <strong>01 / 画像を原寸で見る</strong>
+          <p>各カードの「原寸で開く」をクリックすると、元ファイルを別タブで確認できます。</p>
+        </article>
+        <article class="note">
+          <strong>02 / 設定を読む</strong>
+          <p>設定・資料カードからMarkdownの正本やプロンプトログに移動できます。</p>
+        </article>
+        <article class="note">
+          <strong>03 / 追加しやすい構成</strong>
+          <p>新しい画像はJavaScriptのentries配列に1行追加するだけで一覧に載せられます。</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      MONEYSITE CHARACTER ARCHIVE · Personal static viewer · No external scripts / no upload
+    </footer>
+
+    <script>
+      const roleDefinitions = [
+        ["01", "騎士", "knight", "銀の鎧、青いマント、木剣"],
+        ["02", "戦士", "warrior", "赤いはちまき、戦斧、前進するポーズ"],
+        ["03", "武闘家", "martial-artist", "オレンジ道着、拳の包帯、構え"],
+        ["04", "僧侶", "priest", "白緑ローブ、杖、癒やしの光"],
+        ["05", "魔法使い", "wizard", "星の帽子、紫ローブ、魔導書"],
+        ["06", "賢者", "sage", "青いローブ、眼鏡、幾何学魔法"],
+        ["07", "盗賊", "thief", "灰色フード、短剣、地図"],
+        ["08", "忍者", "ninja", "黒い忍装束、手裏剣、巻物"],
+        ["09", "弓使い", "archer", "緑のレンジャー服、弓、葉の意匠"],
+        ["10", "商人", "merchant", "黄土色のコート、帳簿、天秤"],
+        ["11", "鍛冶屋", "blacksmith", "茶色のエプロン、ハンマー、工具"],
+        ["12", "吟遊詩人", "bard", "ピンクの衣装、リュート、音符"],
+        ["13", "航海士", "navigator", "青い船長服、地図、コンパス"],
+        ["14", "王様", "king", "小さな王冠、赤いマント、王笏"],
+        ["15", "召喚士", "summoner", "紫ローブ、魔法陣、精霊"],
+        ["16", "錬金術師", "alchemist", "青緑コート、ゴーグル、薬瓶"],
+        ["17", "竜騎士", "dragoon", "赤い竜騎士鎧、槍、跳躍"],
+        ["18", "聖騎士", "paladin", "金白の鎧、盾、守護の光"],
+        ["19", "道化師", "jester", "赤桃の道化服、鈴帽子"],
+        ["20", "番人", "guardian", "濃灰の重装鎧、大盾、鍵穴の紋章"]
+      ];
+
+      const entry = (id, title, category, path, meta, shape = "portrait", tags = "") => ({
+        id,
+        title,
+        category,
+        path,
+        meta,
+        shape,
+        tags: `${title} ${meta} ${tags}`.toLowerCase()
+      });
+
+      const chibiEntries = roleDefinitions.map(([no, name, file, detail]) =>
+        entry(`chibi-${no}`, `${no} / ${name}型`, "chibi", `character-assets/${no}-${file}-v01.png`, `SD・透明PNG / ${detail}`, "portrait", "20職能 初版")
+      );
+
+      const faceEntries = roleDefinitions.flatMap(([no, name, file]) => [
+        entry(`face-f-${no}`, `${no} / ${name}・女性顔カード`, "faces", `face-cards/female/${no}_${file}.png`, "女性 / face-card / 原寸", "portrait", "female 女性 顔"),
+        entry(`face-m-${no}`, `${no} / ${name}・男性顔カード`, "faces", `face-cards/male/${no}_${file}.png`, "男性 / face-card / 原寸", "portrait", "male 男性 顔"),
+        entry(`crop-f-${no}`, `${no} / ${name}・女性顔クロップ`, "faces", `face-crops/female/${no}_${file}.png`, "女性 / face-crop / 原寸", "portrait", "female 女性 顔"),
+        entry(`crop-m-${no}`, `${no} / ${name}・男性顔クロップ`, "faces", `face-crops/male/${no}_${file}.png`, "男性 / face-crop / 原寸", "portrait", "male 男性 顔")
+      ]);
+
+      const fullbodyEntries = [
+        entry("fullbody-f-ada", "ADA / 女性・全身設定", "fullbody", "character-roster-fullbody-v1/01_female-ada-01.png", "女性 / ADA / 全身PNG", "fullbody", "女性 female sage oracle"),
+        entry("fullbody-m-byron", "BYRON / 男性・全身設定", "fullbody", "character-roster-fullbody-v1/02_male-byron-01.png", "男性 / BYRON / 全身PNG", "fullbody", "男性 male"),
+        entry("fullbody-f-lab", "LAB MIX / 女性・全身設定", "fullbody", "character-roster-fullbody-v1/03_female-ada-lab-mix-01.png", "女性 / LAB MIX / 全身PNG", "fullbody", "女性 female alchemist")
+      ];
+
+      const fourCutFiles = [
+        ["01", "男性 / 騎士・戦士・武闘家・僧侶", "character-roster-4cut-final/01_male_01_knight-warrior-martial-soryo.png", "male 男性 knight warrior martial soryo"],
+        ["02", "男性 / 魔法使い・忍者", "character-roster-4cut-final/02_male_05-mage-08-ninja.png", "male 男性 mage ninja"],
+        ["03", "男性 / 弓使い・吟遊詩人", "character-roster-4cut-final/03_male_09-archer-12-bard.png", "male 男性 archer bard"],
+        ["04", "男性 / 航海士・錬金術師", "character-roster-4cut-final/04_male_13-navigator-16-alchemist.png", "male 男性 navigator alchemist"],
+        ["05", "男性 / 竜騎士・番人", "character-roster-4cut-final/05_male_17-dragon-20-sentinel.png", "male 男性 dragoon guardian"],
+        ["06", "女性 / 騎士・戦士・武闘家・僧侶", "character-roster-4cut-final/06_female_01_knight-warrior-martial-soryo.png", "female 女性 knight warrior martial soryo"],
+        ["07", "女性 / 魔法使い・忍者", "character-roster-4cut-final/07_female_05-mage-08-ninja.png", "female 女性 mage ninja"],
+        ["08", "女性 / 弓使い・吟遊詩人", "character-roster-4cut-final/08_female_09-archer-12-bard.png", "female 女性 archer bard"],
+        ["09", "女性 / 航海士・錬金術師", "character-roster-4cut-final/09_female_13-navigator-16-alchemist.png", "female 女性 navigator alchemist"],
+        ["10", "女性 / 竜騎士・番人", "character-roster-4cut-final/10_female_17-dragon-20-sentinel.png", "female 女性 dragoon guardian"]
+      ].map(([no, title, path, tags]) => entry(`4cut-${no}`, `4カット ${no} / ${title}`, "4cut", path, "4カット / 男女バリエーション", "sheet", tags));
+
+      const sheetEntries = [
+        ["sheet-female", "20体一覧 / 女性", "character-roster-20-female.png", "女性 / roster"],
+        ["sheet-male", "20体一覧 / 男性", "character-roster-20-male.png", "男性 / roster"],
+        ["sheet-male-sips", "20体一覧 / 男性SIPS", "character-roster-20-male-sips.png", "男性 / roster / sips"],
+        ["sheet-female-svg", "20体一覧 / 女性SVG", "character-roster-20-female.svg", "女性 / SVG"],
+        ["sheet-male-svg", "20体一覧 / 男性SVG", "character-roster-20-male.svg", "男性 / SVG"],
+        ["sheet-contact", "SDキャラ / contact sheet", "character-assets/contact-sheet-v01.png", "SD / contact sheet"],
+        ["sheet-threads", "SDキャラ / Threads用", "character-assets/contact-sheet-threads-v01.png", "SD / Threads"],
+        ["sheet-gender", "男女・裏モード一覧", "character-assets/gender-mode-contact-sheet-v01.png", "男女 / hidden mode"],
+        ["sheet-face-female", "顔一覧 / 女性", "face-roster-20-female.png", "女性 / face roster"],
+        ["sheet-face-male", "顔一覧 / 男性", "face-roster-20-male.png", "男性 / face roster"],
+        ["sheet-grid-female", "顔グリッド / 女性", "face-grid-female.png", "女性 / face grid"],
+        ["sheet-grid-male", "顔グリッド / 男性", "face-grid-male.png", "男性 / face grid"],
+        ["sheet-grid-female-padded", "顔グリッド / 女性 padded", "face-grid-female-padded.png", "女性 / padded"],
+        ["sheet-grid-male-padded", "顔グリッド / 男性 padded", "face-grid-male-padded.png", "男性 / padded"],
+        ["sheet-face-header-f", "顔ページヘッダー / 女性", "face-header-female.png", "女性 / header"],
+        ["sheet-face-header-m", "顔ページヘッダー / 男性", "face-header-male.png", "男性 / header"],
+        ["sheet-face-footer", "顔ページフッター", "face-footer.png", "footer"],
+        ["sheet-face-preview", "顔クロップ比較プレビュー", "male-face-crops-preview.png", "男性 / face crop preview"],
+        ["sheet-blender", "Blenderプロトタイプ / preview", "blender_prototype_ada.png", "Blender / prototype"]
+      ].map(([id, title, path, meta]) => entry(id, title, "sheets", path, meta, "sheet", "一覧 比較 sheet"));
+
+      const cutoutEntries = [
+        entry("cutout-ada-sage", "ADA SAGE / 透明カットアウト", "fullbody", "character-setting-cutouts/ada-sage-female-transparent.png", "女性 / 透明PNG / 背景除去", "fullbody", "透明 cutout sage")
+      ];
+
+      const documentFiles = [
+        ["PUBLIC_BACKUP_MANIFEST.md", "公開バックアップの範囲と除外項目", "backup scope manifest"],
+        ["SITE_PROJECT_HISTORY.md", "サイトとキャラクター制作の履歴", "history project"],
+        ["character-settings-and-prompts.md", "キャラクター設定とプロンプト", "settings prompt"],
+        ["character-settings-memo.md", "キャラクター設定メモ", "settings memo"],
+        ["character-visual-direction-v02.md", "ビジュアル方向性 v02", "visual direction"],
+        ["dual-mode-character-settings.md", "男女・モード別キャラクター設定", "dual mode gender"],
+        ["gender-variant-character-settings.md", "男女バリエーション設定", "gender variant"],
+        ["higgsfield-soul2-8-pilot-prompt-pack.md", "Higgsfield SOUL2 / 8体プロンプト", "soul2 higgsfield prompt"],
+        ["character-assets/manifest.md", "SDキャラアセット台帳", "asset manifest chibi"],
+        ["character-assets/gender-mode-manifest.md", "男女版・裏モード台帳", "gender mode manifest"],
+        ["character-assets/generation-prompt-log.md", "生成プロンプトログ", "generation prompt log"],
+        ["character-assets/transformation-demo/README.md", "変身デモの説明", "transformation demo"],
+        ["threads-campaign-kit.md", "Threads投稿用キャンペーンキット", "threads campaign"]
+      ].map(([path, title, tags]) => entry(`doc-${path}`, title, "documents", path, `Markdown / ${path}`, "doc", tags));
+
+      const entries = [
+        ...fullbodyEntries,
+        ...cutoutEntries,
+        ...fourCutFiles,
+        ...chibiEntries,
+        ...faceEntries,
+        ...sheetEntries,
+        ...documentFiles
+      ];
+
+      const grid = document.getElementById("entry-grid");
+      const count = document.getElementById("result-count");
+      const hint = document.getElementById("result-hint");
+      const empty = document.getElementById("empty-state");
+      const search = document.getElementById("search");
+      let activeFilter = "all";
+      let query = "";
+
+      const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[character]));
+
+      const categoryLabel = {
+        fullbody: "全身",
+        "4cut": "4CUT",
+        chibi: "SD",
+        faces: "FACE",
+        sheets: "SHEET",
+        documents: "DOC"
+      };
+
+      function renderCard(item) {
+        const isDocument = item.category === "documents";
+        const media = isDocument
+          ? `<div class="doc-icon" aria-hidden="true">MD</div>`
+          : `<a href="${escapeHtml(item.path)}" target="_blank" rel="noopener" aria-label="${escapeHtml(item.title)}を原寸で開く"><img loading="lazy" src="${escapeHtml(item.path)}" alt="${escapeHtml(item.title)}" /></a>`;
+        const action = isDocument ? "資料を開く ↗" : "原寸で開く ↗";
+        return `
+          <article class="entry" data-kind="${isDocument ? "doc" : "image"}" data-shape="${escapeHtml(item.shape)}">
+            <div class="entry-media">
+              <span class="entry-badge">${escapeHtml(categoryLabel[item.category] || item.category)}</span>
+              ${media}
+            </div>
+            <div class="entry-body">
+              <h3 class="entry-title">${escapeHtml(item.title)}</h3>
+              <p class="entry-meta">${escapeHtml(item.meta)}</p>
+              <a class="entry-link" href="${escapeHtml(item.path)}" target="_blank" rel="noopener"><span>${action}</span><span aria-hidden="true">→</span></a>
+            </div>
+          </article>`;
+      }
+
+      function render() {
+        const visible = entries.filter((item) => {
+          const matchesFilter = activeFilter === "all" || item.category === activeFilter;
+          const matchesQuery = !query || item.tags.includes(query) || item.path.toLowerCase().includes(query);
+          return matchesFilter && matchesQuery;
+        });
+        grid.innerHTML = visible.map(renderCard).join("");
+        count.textContent = visible.length;
+        empty.classList.toggle("is-visible", visible.length === 0);
+        hint.textContent = query ? `「${query}」で検索中` : "画像と資料をまとめて閲覧できます";
+      }
+
+      document.querySelectorAll(".filter").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeFilter = button.dataset.filter;
+          document.querySelectorAll(".filter").forEach((candidate) => candidate.classList.remove("is-active"));
+          button.classList.add("is-active");
+          render();
+        });
+      });
+
+      search.addEventListener("input", () => {
+        query = search.value.trim().toLowerCase();
+        render();
+      });
+
+      render();
+    </script>
+  </body>
+</html>
